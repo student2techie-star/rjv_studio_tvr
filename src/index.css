@@ -42,6 +42,10 @@ picture {
   border-radius: 2px;
 }
 
+@utility btn {
+  @apply inline-flex items-center justify-center gap-2 rounded-full font-semibold transition-all duration-300 focus-visible:outline-2 focus-visible:outline-offset-2 cursor-pointer select-none;
+}
+
 /* ---------------------------------------------------------------------------
    Typography system
 --------------------------------------------------------------------------- */
@@ -75,11 +79,7 @@ picture {
   }
 
   .text-nav-active {
-    @apply text-nav text-brand-900 underline underline-offset-8 decoration-brand-300 decoration-2;
-  }
-
-  .btn {
-    @apply inline-flex items-center justify-center gap-2 rounded-full font-semibold transition-all duration-300 focus-visible:outline-2 focus-visible:outline-offset-2 cursor-pointer select-none;
+    @apply text-sm font-semibold uppercase tracking-[0.14em] text-brand-900 underline underline-offset-8 decoration-brand-300 decoration-2;
   }
 
   .btn-primary {
