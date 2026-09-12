@@ -45,24 +45,25 @@ export default function Logo({ size = 40, className = "" }) {
           aria-hidden="true"
           style={{
             position: "absolute",
-            top: "30%",          /* lens Y in 240px image */
-            left: "50%",
+            top: "25.5%",
+            left: "51%",
             transform: "translate(-50%, -50%)",
-            width: size * 0.32,
-            height: size * 0.32,
+            width: size * 0.38,
+            height: size * 0.38,
             borderRadius: "50%",
-            background:
-              "radial-gradient(circle, #ffffff 0%, #fffde7 20%, #ffd54f 45%, rgba(255,213,79,0.2) 70%, transparent 85%)",
+            background: flashOn
+              ? "radial-gradient(circle, rgba(255,255,255,0.95) 0%, rgba(255,240,120,0.9) 25%, rgba(255,210,60,0.7) 55%, transparent 80%)"
+              : "none",
             boxShadow: flashOn
-              ? `0 0 ${size * 0.3}px ${size * 0.18}px rgba(255,220,60,0.95),
-                 0 0 ${size * 0.6}px ${size * 0.12}px rgba(255,240,160,0.6)`
+              ? `0 0 ${size * 0.4}px ${size * 0.2}px rgba(255,210,60,0.9),
+                 0 0 ${size * 0.7}px ${size * 0.15}px rgba(255,240,160,0.5)`
               : "none",
             opacity: flashOn ? 1 : 0,
             transition: flashOn
-              ? "opacity 0.06s ease-in, box-shadow 0.06s ease-in"
-              : "opacity 0.35s ease-out, box-shadow 0.35s ease-out",
+              ? "opacity 0.06s ease-in"
+              : "opacity 0.4s ease-out",
             pointerEvents: "none",
-            mixBlendMode: "screen",
+            zIndex: 2,
           }}
         />
         {/* Star flare rays from lens when flash fires */}
@@ -72,18 +73,18 @@ export default function Logo({ size = 40, className = "" }) {
             aria-hidden="true"
             style={{
               position: "absolute",
-              top: "30%",
-              left: "50%",
+              top: "25.5%",
+              left: "51%",
               transform: `translate(-50%, -50%) rotate(${deg}deg)`,
               transformOrigin: "center",
-              width: size * 1.2,
-              height: 2,
+              width: size * 1.6,
+              height: 2.5,
               background:
-                "linear-gradient(to right, transparent 0%, rgba(255,235,100,0.8) 40%, rgba(255,235,100,0.8) 60%, transparent 100%)",
+                "linear-gradient(to right, transparent 0%, rgba(255,220,50,1) 35%, rgba(255,245,180,1) 50%, rgba(255,220,50,1) 65%, transparent 100%)",
               borderRadius: "999px",
               pointerEvents: "none",
-              mixBlendMode: "screen",
-              animation: "flashRays 0.25s ease-out forwards",
+              zIndex: 2,
+              animation: "flashRays 0.3s ease-out forwards",
             }}
           />
         ))}

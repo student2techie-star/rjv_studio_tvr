@@ -13,23 +13,23 @@ export default function Footer() {
         <div className="grid gap-10 md:grid-cols-[1.4fr_1fr_1fr] lg:grid-cols-[1.6fr_1fr_1fr_1.2fr]">
           {/* Brand */}
           <div>
-            <div className="flex items-center gap-2.5">
-              {/* Aperture SVG logo mark */}
-              <svg width="36" height="36" viewBox="0 0 64 64" fill="none" xmlns="http://www.w3.org/2000/svg" aria-hidden="true">
-                <defs><clipPath id="fc-lens"><circle cx="32" cy="32" r="20"/></clipPath></defs>
-                <circle cx="32" cy="32" r="30" fill="currentColor" className="text-brand-300" opacity="0.18"/>
-                <circle cx="32" cy="32" r="25.5" stroke="currentColor" strokeWidth="3.5" fill="none" className="text-brand-300"/>
-                <g clipPath="url(#fc-lens)">
-                  {[0,60,120,180,240,300].map(a => (
-                    <ellipse key={a} cx="32" cy="32" rx="34" ry="8.5" fill="currentColor" className="text-brand-300" opacity="0.85" transform={`rotate(${a} 32 32)`}/>
-                  ))}
-                </g>
-                <circle cx="32" cy="32" r="10.5" fill="none" stroke="currentColor" strokeWidth="3" className="text-brand-300"/>
-                <circle cx="32" cy="32" r="3.5" fill="currentColor" className="text-brand-300"/>
-              </svg>
+            <div className="flex items-center gap-3">
+              {/* Dark-theme transparent logo — seamlessly matches footer background */}
+              <img
+                src={`${import.meta.env.BASE_URL}images/logo-darkbg.png`}
+                alt="RJV Studios logo"
+                width={64}
+                height={64}
+                style={{
+                  width: 64,
+                  height: 64,
+                  objectFit: "contain",
+                  display: "block",
+                }}
+              />
               <div>
                 <span className="block text-lg font-bold text-white tracking-tight leading-none">RJV Studios</span>
-                <span className="block text-xs text-brand-300/80 tracking-widest uppercase leading-tight">Photography</span>
+                <span className="block text-xs text-brand-300/80 tracking-widest uppercase leading-tight mt-0.5">Photography</span>
               </div>
             </div>
             <p className="text-sm leading-relaxed text-brand-200/80 mt-4 max-w-xs">

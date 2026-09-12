@@ -17,10 +17,10 @@ const STAGES = [
 
 const LAST = STAGES.length - 1;
 
-// Lens center in the 240×240 rendered image (from inspection):
-// X: 50% (centered), Y: ~30% from top  →  top: "30%"
-const LENS_TOP  = "30%";
-const LENS_LEFT = "50%";
+// Lens center in the 240×240 rendered logo image:
+// X: 51% from left, Y: 25.5% from top (exact lens center)
+const LENS_TOP  = "25.5%";
+const LENS_LEFT = "51%";
 
 function prefersReducedMotion() {
   return typeof window !== "undefined" &&
