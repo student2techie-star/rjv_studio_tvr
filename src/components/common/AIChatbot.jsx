@@ -22,6 +22,7 @@ const INITIAL_PROMPTS = [
   { label: "📍 Location & Hours", query: "Where is RJV Studios located?" },
   { label: "📅 How to Book", query: "How can I book a photography shoot?" },
   { label: "💰 Pricing & Quotes", query: "What are your package prices?" },
+  { label: "📞 Contact Us for Details", query: "How to contact RJV Studios for more details?" },
 ];
 
 function withNav(suggestions, isHome = false) {
@@ -41,14 +42,37 @@ function withNav(suggestions, isHome = false) {
 
 const BOT_KNOWLEDGE = [
   {
+    keywords: ["details", "contact us", "reach", "touch", "phone", "number", "call", "connect"],
+    response:
+      "📞 **Contact RJV Studios for More Details**\n\nOur team is available daily from **9:00 AM to 9:00 PM** to help you with photography bookings, 3D photo frame customization, date availability, or package quotes.\n\nConnect with us directly:",
+    actions: [
+      {
+        label: "Chat on WhatsApp",
+        external: createWhatsAppUrl("Hi RJV Studios, I would like more details about your photography services."),
+        variant: "whatsapp",
+      },
+      {
+        label: "Call Studio (+91 90034 30930)",
+        external: "tel:+919003430930",
+        variant: "call",
+      },
+    ],
+    action: { label: "Go to Contact Page", to: "/contact" },
+    suggestions: withNav([
+      { label: "📍 Location & Google Maps", query: "Where is RJV Studios located?" },
+      { label: "📅 Book a Session", query: "How can I book a photography shoot?" },
+      { label: "💰 Packages & Rates", query: "What are your package prices?" },
+    ]),
+  },
+  {
     keywords: ["wedding", "muhurtham", "marriage", "reception", "sangeet", "nitchayathartham"],
     response:
       "💍 **Wedding & Reception Photography**\n\nWe provide full-day candid & traditional wedding coverage in Thiruvarur & Tamil Nadu:\n• Engagement & Nitchayathartham\n• Pre-Wedding Scenic Couple Session\n• Sacred Muhurtham & Rituals\n• Reception, Sangeet & Haldi\n• High-Res Albums & Teaser Reels",
     action: { label: "Book Wedding Shoot", to: "/book" },
     suggestions: withNav([
       { label: "💰 Wedding Prices", query: "What are your package prices?" },
+      { label: "📞 Contact Us for Details", query: "How to contact RJV Studios for more details?" },
       { label: "🖼️ Wedding Albums", query: "Tell me about custom photo frames" },
-      { label: "💬 Chat on WhatsApp", query: "How to contact on WhatsApp?" },
     ]),
   },
   {
@@ -59,7 +83,7 @@ const BOT_KNOWLEDGE = [
     suggestions: withNav([
       { label: "🎂 1st Birthday Shoots", query: "Tell me about 1st birthday shoots" },
       { label: "👂 Kadhukuthu Vizha", query: "Tell me about kadhukuthu ear piercing shoots" },
-      { label: "📅 Book Baby Session", query: "How can I book a photography shoot?" },
+      { label: "📞 Contact Us for Details", query: "How to contact RJV Studios for more details?" },
     ]),
   },
   {
@@ -72,7 +96,7 @@ const BOT_KNOWLEDGE = [
         { label: "💍 Wedding Photography", query: "Tell me about wedding photography" },
         { label: "👶 Baby & Maternity", query: "Tell me about baby photography" },
         { label: "💛 Ceremonies (Manjal Neerattu)", query: "Tell me about traditional ceremonies" },
-        { label: "🖼️ 3D Photo Frames", query: "Tell me about custom photo frames" },
+        { label: "📞 Contact Us for Details", query: "How to contact RJV Studios for more details?" },
       ],
       true
     ),
@@ -85,7 +109,7 @@ const BOT_KNOWLEDGE = [
     suggestions: withNav([
       { label: "💛 Puberty Ceremony (Manjal Neerattu)", query: "Manjal Neerattu Vizha photography" },
       { label: "🏡 Housewarming Shoot", query: "Housewarming ceremony coverage" },
-      { label: "📅 Book Ceremony Shoot", query: "How can I book a photography shoot?" },
+      { label: "📞 Contact Us for Details", query: "How to contact RJV Studios for more details?" },
     ]),
   },
   {
@@ -96,7 +120,7 @@ const BOT_KNOWLEDGE = [
     suggestions: withNav([
       { label: "🎨 Frame Preview Tool", query: "Where can I preview custom frames?" },
       { label: "🎁 Photo Frame Gifts", query: "Are frames good for gifts?" },
-      { label: "💬 Order on WhatsApp", query: "How to order photo frames?" },
+      { label: "📞 Contact Us for Details", query: "How to contact RJV Studios for more details?" },
     ]),
   },
   {
@@ -106,11 +130,11 @@ const BOT_KNOWLEDGE = [
     action: { label: "Open Google Maps", external: "https://maps.google.com/?q=RJV+Studios+Thiruvarur" },
     suggestions: withNav([
       { label: "📅 Book Studio Visit", query: "How can I book a photography shoot?" },
-      { label: "💬 Contact on WhatsApp", query: "How to contact on WhatsApp?" },
+      { label: "📞 Contact Us for Details", query: "How to contact RJV Studios for more details?" },
     ]),
   },
   {
-    keywords: ["book", "booking", "reserve", "date", "appointment", "schedule", "contact"],
+    keywords: ["book", "booking", "reserve", "date", "appointment", "schedule"],
     response:
       "📅 **Booking Your Shoot**\n\n1. Use our online booking form to choose your date & service.\n2. Or connect with us directly on WhatsApp or Call for instant date availability!",
     actions: [
@@ -127,7 +151,7 @@ const BOT_KNOWLEDGE = [
     ],
     suggestions: withNav([
       { label: "📝 Fill Booking Form", query: "How can I book a photography shoot?" },
-      { label: "📸 Explore Services First", query: "What photography services do you offer?" },
+      { label: "📞 Contact Us for Details", query: "How to contact RJV Studios for more details?" },
     ]),
   },
   {
@@ -148,7 +172,7 @@ const BOT_KNOWLEDGE = [
     ],
     suggestions: withNav([
       { label: "💍 Wedding Photography Info", query: "Tell me about wedding photography" },
-      { label: "👶 Baby Shoot Info", query: "Tell me about baby photography" },
+      { label: "📞 Contact Us for Details", query: "How to contact RJV Studios for more details?" },
       { label: "🖼️ 3D Photo Frames", query: "Tell me about custom photo frames" },
     ]),
   },
@@ -160,7 +184,7 @@ const BOT_KNOWLEDGE = [
       [
         { label: "💰 Pricing & Quotes", query: "What are your package prices?" },
         { label: "📸 Services Offered", query: "What photography services do you offer?" },
-        { label: "🖼️ 3D Photo Frames", query: "Tell me about custom photo frames" },
+        { label: "📞 Contact Us for Details", query: "How to contact RJV Studios for more details?" },
       ],
       true
     ),
@@ -181,14 +205,14 @@ function getBotReply(userText) {
           variant: "whatsapp",
         },
         {
-          label: "Call Studio (+91 97893 25969)",
-          external: "tel:+919789325969",
+          label: "Call Studio (+91 90034 30930)",
+          external: "tel:+919003430930",
           variant: "call",
         },
       ],
       suggestions: withNav([
         { label: "💍 Wedding Photography", query: "Tell me about wedding photography" },
-        { label: "👶 Baby Shoots", query: "Tell me about baby photography" },
+        { label: "📞 Contact Us for Details", query: "How to contact RJV Studios for more details?" },
         { label: "🖼️ 3D Photo Frames", query: "Tell me about custom photo frames" },
       ]),
     };
@@ -210,8 +234,8 @@ function getBotReply(userText) {
         variant: "whatsapp",
       },
       {
-        label: "Call Studio (+91 97893 25969)",
-        external: "tel:+919789325969",
+        label: "Call Studio (+91 90034 30930)",
+        external: "tel:+919003430930",
         variant: "call",
       },
     ],
