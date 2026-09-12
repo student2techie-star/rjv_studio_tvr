@@ -1,10 +1,85 @@
-import React from "react";
-import { motion } from "framer-motion";
-import { ArrowRight, Sparkles, Star, ShieldCheck } from "lucide-react";
+// src/components/home/Hero.jsx
+import React, { useState, useEffect } from "react";
+import { motion, AnimatePresence } from "framer-motion";
+import { ArrowRight, Star, ShieldCheck } from "lucide-react";
 import Container from "../common/Container";
 import Button from "../common/Button";
+
+// Hero main showcase photos
 import heroImg from "../../assets/images/weddings/anniversary-01.jpg";
-import chipImg from "../../assets/images/portraits/bridal-red.jpg";
+
+// Slideshow showcase photos
+import bridalRed from "../../assets/images/portraits/bridal-red.jpg";
+import anniversary02 from "../../assets/images/weddings/anniversary-02.jpg";
+import babyshootMurugan from "../../assets/images/kids/babyshoot-murugan.jpg";
+import maternity01 from "../../assets/images/kids/maternity-01.jpg";
+import thaliMacro from "../../assets/images/ceremonies/thali-macro.jpg";
+import anniversary04 from "../../assets/images/weddings/anniversary-04.jpg";
+
+const SLIDES = [
+  { src: bridalRed, label: "Bridal Portrait" },
+  { src: anniversary02, label: "Wedding Arch" },
+  { src: babyshootMurugan, label: "Baby Shoot" },
+  { src: maternity01, label: "Maternity Glow" },
+  { src: thaliMacro, label: "Sacred Rituals" },
+  { src: anniversary04, label: "Fairy Lights" },
+];
+
+function HeroSlideshowChip() {
+  const [index, setIndex] = useState(0);
+
+  useEffect(() => {
+    const timer = setInterval(() => {
+      setIndex((prev) => (prev + 1) % SLIDES.length);
+    }, 3200);
+    return () => clearInterval(timer);
+  }, []);
+
+  const slide = SLIDES[index];
+
+  return (
+    <motion.div
+      className="absolute -top-7 -right-3 sm:-right-7 lg:-right-9 hidden sm:block w-36 h-48 sm:w-44 sm:h-56 lg:w-48 lg:h-60 rounded-3xl overflow-hidden border-4 border-white shadow-2xl shadow-brand-900/30 rotate-3 transition-transform duration-500 hover:rotate-0 z-20 bg-slate-950"
+      initial={{ opacity: 0, scale: 0.85, y: -20 }}
+      animate={{ opacity: 1, scale: 1, y: 0 }}
+      transition={{ duration: 0.8, delay: 0.85 }}
+    >
+      <AnimatePresence mode="wait">
+        <motion.div
+          key={index}
+          initial={{ opacity: 0, scale: 1.08 }}
+          animate={{ opacity: 1, scale: 1 }}
+          exit={{ opacity: 0, scale: 0.96 }}
+          transition={{ duration: 0.7, ease: "easeInOut" }}
+          className="relative w-full h-full"
+        >
+          <img
+            src={slide.src}
+            alt={slide.label}
+            className="w-full h-full object-cover"
+          />
+          {/* Subtle gradient shadow and category badge */}
+          <div className="absolute inset-x-0 bottom-0 bg-gradient-to-t from-black/85 via-black/40 to-transparent p-3 pt-6 flex items-center justify-between">
+            <span className="text-[10px] sm:text-xs font-bold text-white tracking-wider uppercase bg-black/40 backdrop-blur-md px-2.5 py-0.5 rounded-full border border-white/20">
+              {slide.label}
+            </span>
+            {/* Dots indicator */}
+            <div className="flex gap-1">
+              {SLIDES.map((_, i) => (
+                <div
+                  key={i}
+                  className={`h-1.5 rounded-full transition-all duration-300 ${
+                    i === index ? "w-3 bg-brand-300" : "w-1.5 bg-white/40"
+                  }`}
+                />
+              ))}
+            </div>
+          </div>
+        </motion.div>
+      </AnimatePresence>
+    </motion.div>
+  );
+}
 
 export default function Hero() {
   return (
@@ -91,7 +166,7 @@ export default function Hero() {
             </motion.div>
           </div>
 
-          {/* Editorial photo */}
+          {/* Editorial photo section */}
           <motion.div
             className="relative mx-auto max-w-md lg:max-w-none"
             initial={{ opacity: 0, scale: 0.94, y: 20 }}
@@ -125,15 +200,8 @@ export default function Hero() {
               </motion.div>
             </div>
 
-            {/* Floating image chip */}
-            <motion.div
-              className="absolute -top-5 -right-3 sm:-right-6 hidden sm:block w-28 h-28 rounded-2xl overflow-hidden border-4 border-white shadow-lg"
-              initial={{ opacity: 0, y: -16 }}
-              animate={{ opacity: 1, y: 0 }}
-              transition={{ duration: 0.6, delay: 0.85 }}
-            >
-              <img src={chipImg} alt="RJV Studios bridal portrait" className="h-full w-full object-cover" loading="lazy" decoding="async" width={112} height={112} />
-            </motion.div>
+            {/* Free-style larger animated slideshow chip */}
+            <HeroSlideshowChip />
           </motion.div>
         </div>
       </Container>
