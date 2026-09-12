@@ -91,18 +91,18 @@ export default function Hero() {
                 animate={{ scale: 1 }}
                 transition={{ duration: 1.2, ease: "easeOut" }}
               />
-            </div>
 
-            {/* Floating stat card */}
-            <motion.div
-              className="absolute bottom-4 left-4 sm:-bottom-6 sm:-left-8 z-10 rounded-2xl bg-white/95 backdrop-blur-md px-4 sm:px-5 py-3 sm:py-4 shadow-xl shadow-brand-900/10 border border-brand-200/70"
-              initial={{ opacity: 0, y: 20 }}
-              animate={{ opacity: 1, y: 0 }}
-              transition={{ duration: 0.6, delay: 0.7 }}
-            >
-              <p className="text-xl sm:text-2xl font-bold text-brand-900">1000+</p>
-              <p className="text-[10px] sm:text-xs uppercase tracking-widest text-brand-600">Smiles preserved</p>
-            </motion.div>
+              {/* Floating stat card */}
+              <motion.div
+                className="absolute bottom-4 left-4 z-10 rounded-2xl bg-white/95 backdrop-blur-md px-4 sm:px-5 py-3 sm:py-4 shadow-xl shadow-brand-900/20 border border-brand-200/70"
+                initial={{ opacity: 0, y: 20 }}
+                animate={{ opacity: 1, y: 0 }}
+                transition={{ duration: 0.6, delay: 0.7 }}
+              >
+                <p className="text-xl sm:text-2xl font-bold text-brand-900">1000+</p>
+                <p className="text-[10px] sm:text-xs uppercase tracking-widest text-brand-600">Smiles preserved</p>
+              </motion.div>
+            </div>
 
             {/* Floating image chip */}
             <motion.div

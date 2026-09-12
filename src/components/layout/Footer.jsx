@@ -1,5 +1,6 @@
 import React from "react";
 import { Link } from "react-router-dom";
+import { Code2 } from "lucide-react";
 import Container from "../common/Container";
 import SocialIcon from "../common/SocialIcons";
 import Button from "../common/Button";
@@ -106,10 +107,24 @@ export default function Footer() {
           </div>
         </div>
 
-        <div className="mt-12 pt-6 border-t border-brand-100/15 flex flex-col sm:flex-row items-center justify-between gap-3">
+        <div className="mt-12 pt-6 border-t border-brand-100/15 flex flex-col sm:flex-row items-center justify-between gap-3 text-center sm:text-left">
           <p className="text-xs text-brand-200/70">
             © {new Date().getFullYear()} RJV Studios. All rights reserved.
           </p>
+
+          <p className="text-xs text-brand-200/70 flex items-center justify-center gap-1.5">
+            <span>Developed by</span>
+            <a
+              href="https://student2techie.in/"
+              target="_blank"
+              rel="noopener noreferrer"
+              className="inline-flex items-center gap-1 font-semibold text-brand-300 hover:text-white transition-colors underline decoration-brand-300/40 underline-offset-4"
+            >
+              <Code2 size={14} className="text-brand-300" />
+              <span>Student2Techie</span>
+            </a>
+          </p>
+
           <p className="text-xs text-brand-200/70">
             Thiruvarur · Tamil Nadu · India
           </p>
