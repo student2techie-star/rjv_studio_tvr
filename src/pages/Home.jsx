@@ -3,11 +3,11 @@ import React from "react";
 import { Helmet } from "react-helmet-async";
 import Hero from "../components/home/Hero";
 // Placeholder imports for remaining home sections
-import Intro from "../components/home/Intro";
-import ServicesPreview from "../components/home/ServicesPreview";
-import FeaturedPortfolio from "../components/home/FeaturedPortfolio";
-import SocialSection from "../components/home/SocialSection";
-import BookingCTA from "../components/home/BookingCTA";
+// import Intro from "../components/home/Intro"; // removed missing component
+// import ServicesPreview from "../components/home/ServicesPreview"; // removed missing component
+// import FeaturedPortfolio from "../components/home/FeaturedPortfolio"; // removed missing component
+// import SocialSection from "../components/home/SocialSection"; // removed missing component
+// import BookingCTA from "../components/home/BookingCTA"; // removed missing component
 
 export default function Home() {
   return (
