@@ -32,7 +32,7 @@ export default function BookingCTA() {
             </p>
 
             <div className="mt-10 flex flex-col sm:flex-row items-center justify-center gap-4">
-              <Button to="/contact" variant="dark">
+              <Button to="/book" variant="dark">
                 Open booking form <ArrowRight size={18} />
               </Button>
               <a

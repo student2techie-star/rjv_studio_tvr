@@ -87,7 +87,7 @@ export default function Footer() {
             <p className="text-sm text-brand-100/80 mb-5">
               Tell us about your event and get a personalised plan.
             </p>
-            <Button to="/contact" variant="primary">
+            <Button to="/book" variant="primary">
               Book Now
             </Button>
           </div>

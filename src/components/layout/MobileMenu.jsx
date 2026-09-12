@@ -80,7 +80,7 @@ export default function MobileMenu() {
                 animate={{ opacity: 1, y: 0, transition: { delay: 0.05 * (NAV.length + 1) } }}
                 exit={{ opacity: 0, transition: { duration: 0.1 } }}
               >
-                <Button to="/contact" variant="dark" onClick={close}>
+                <Button to="/book" variant="dark" onClick={close}>
                   Book Now
                 </Button>
               </motion.div>

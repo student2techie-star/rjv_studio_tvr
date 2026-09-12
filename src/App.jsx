@@ -14,6 +14,7 @@ import Services from "./pages/Services";
 import Portfolio from "./pages/Portfolio";
 import Frames from "./pages/Frames";
 import Contact from "./pages/Contact";
+import Book from "./pages/Book";
 
 function App() {
   // Show logo intro on every page load / refresh.
@@ -33,6 +34,7 @@ function App() {
             <Route path="/portfolio" element={<Portfolio />} />
             <Route path="/frames" element={<Frames />} />
             <Route path="/contact" element={<Contact />} />
+            <Route path="/book" element={<Book />} />
             <Route path="*" element={<Home />} />
           </Routes>
         </PageTransition>

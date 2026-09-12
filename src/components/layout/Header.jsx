@@ -39,7 +39,7 @@ export default function Header() {
           {/* CTA + mobile toggle */}
           <div className="flex items-center gap-3">
             <div className="hidden md:block">
-              <Button to="/contact" variant="primary">
+              <Button to="/book" variant="primary">
                 Book Now
               </Button>
             </div>

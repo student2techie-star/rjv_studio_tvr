@@ -61,7 +61,7 @@ export default function Hero() {
               animate={{ opacity: 1, y: 0 }}
               transition={{ duration: 0.7, delay: 0.36 }}
             >
-              <Button to="/contact" variant="primary">
+              <Button to="/book" variant="primary">
                 Book Your Session <ArrowRight size={18} />
               </Button>
               <Button to="/portfolio" variant="outline">
