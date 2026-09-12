@@ -59,6 +59,16 @@ export default function Frames() {
 
       {/* Uploader */}
       <section className="py-14 lg:py-20 bg-brand-50 min-h-[50vh]">
+          <div className="video-above-wrap">
+            <video
+              className="w-full h-48 object-cover rounded-2xl bg-brand-900"
+              src={`${import.meta.env.BASE_URL}videos/frames-demo.mp4`}
+              playsInline
+              muted
+              preload="metadata"
+            />
+            <p className="text-caption text-center mt-2">Reference video — replace with your final clip</p>
+          </div>
         <Container className="max-w-3xl">
           <ImageUploader />
 
