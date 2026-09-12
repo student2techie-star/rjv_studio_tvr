@@ -9,8 +9,8 @@ import Home from "./pages/Home";
 import About from "./pages/About";
 import Services from "./pages/Services";
 import Portfolio from "./pages/Portfolio";
-import Frames from "./pages/Frames";
-import Contact from "./pages/Contact";
+// import Frames from "./pages/Frames"; // Removed: page not needed
+// import Contact from "./pages/Contact"; // Removed: page not needed
 
 function App() {
   const [showIntro, setShowIntro] = useState(false);
@@ -33,8 +33,8 @@ function App() {
             <Route path="/about" element={<About />} />
             <Route path="/services" element={<Services />} />
             <Route path="/portfolio" element={<Portfolio />} />
-            <Route path="/frames" element={<Frames />} />
-            <Route path="/contact" element={<Contact />} />
+            {/* <Route path="/frames" element={<Frames />} /> */}
+            {/* <Route path="/contact" element={<Contact />} /> */}
           </Routes>
         </PageTransition>
         <Footer />

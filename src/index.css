@@ -1,36 +1,22 @@
 /* src/index.css */
-@tailwind base;
-@tailwind components;
-@tailwind utilities;
+/* Replaced Tailwind directives with custom pastel palette */
 
 /* Global Styles */
-html {
-  scroll-behavior: smooth;
-}
+html { scroll-behavior: smooth; }
 
 body {
   font-family: "Josefin Sans", sans-serif;
-  background-color: #AFDBF5;
-  color: #173B52;
+  background-color: #F0F9FF; /* light pastel blue */
+  color: #1A202C; /* dark text */
 }
 
 /* Selection */
-::selection {
-  background-color: #8FC9EA;
-  color: #173B52;
-}
+::selection { background-color: #B0D4FF; color: #1A202C; }
 
 /* Focus outline */
-:focus-visible {
-  outline: 2px solid #4F91B6;
-  outline-offset: 2px;
-}
+:focus-visible { outline: 2px solid #3B82F6; outline-offset: 2px; }
 
 /* Reduced motion support */
 @media (prefers-reduced-motion: reduce) {
-  *, *::before, *::after {
-    animation-duration: 0.01ms !important;
-    transition-duration: 0.01ms !important;
-    scroll-behavior: auto !important;
-  }
+  *, *::before, *::after { animation-duration: 0.01ms !important; transition-duration: 0.01ms !important; scroll-behavior: auto !important; }
 }
