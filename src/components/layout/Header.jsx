@@ -12,11 +12,8 @@ export default function Header() {
       <header className="fixed top-0 inset-x-0 z-50 bg-white/85 backdrop-blur-xl border-b border-brand-200/70 shadow-sm">
         <div className="mx-auto flex max-w-6xl items-center justify-between px-4 sm:px-6 lg:px-8 h-16 md:h-20">
           {/* Logo / wordmark */}
-          <Link to="/" className="flex items-center gap-2.5 group" aria-label="RJV Studios — Home">
-            <Logo size={36} className="text-brand-500 transition-transform duration-300 group-hover:rotate-12" bars={false} />
-            <span className="text-lg md:text-xl font-bold text-brand-900 tracking-tight">
-              RJV&nbsp;Studios
-            </span>
+          <Link to="/" className="flex items-center gap-2 group" aria-label="RJV Studios — Home">
+            <Logo size={52} className="" />
           </Link>
 
           {/* Desktop nav */}
