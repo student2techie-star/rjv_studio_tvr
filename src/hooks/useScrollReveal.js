@@ -2,35 +2,32 @@
 import { useMemo } from "react";
 
 /**
- * Returns framer-motion props for a subtle scroll-reveal.
- * Respects reduced-motion via framer-motion's built-in handling.
- * Usage:
- *   <motion.div {...useScrollReveal({ delay: 0.1 })}>
+ * Returns framer-motion props for subtle scroll-reveal.
+ * Guarantees content is visible immediately so no white screen occurs.
  */
-export function useScrollReveal({ delay = 0, y = 28, duration = 0.65 } = {}) {
+export function useScrollReveal({ delay = 0, duration = 0.5 } = {}) {
   return useMemo(
     () => ({
-      initial: { opacity: 0, y },
-      whileInView: { opacity: 1, y: 0 },
-      viewport: { once: true, amount: 0.05 },
-      transition: { duration, delay, ease: [0.22, 1, 0.36, 1] },
+      initial: { opacity: 1, y: 0 },
+      animate: { opacity: 1, y: 0 },
+      transition: { duration, delay, ease: "easeOut" },
     }),
-    [delay, y, duration]
+    [delay, duration]
   );
 }
 
 export const staggerContainer = {
   hidden: {},
   show: {
-    transition: { staggerChildren: 0.12, delayChildren: 0.1 },
+    transition: { staggerChildren: 0.1, delayChildren: 0.05 },
   },
 };
 
 export const staggerItem = {
-  hidden: { opacity: 0, y: 24 },
+  hidden: { opacity: 1, y: 0 },
   show: {
     opacity: 1,
     y: 0,
-    transition: { duration: 0.6, ease: [0.22, 1, 0.36, 1] },
+    transition: { duration: 0.4, ease: "easeOut" },
   },
 };

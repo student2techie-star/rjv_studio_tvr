@@ -1,20 +1,6 @@
 // src/components/layout/PageTransition.jsx
 import React from "react";
-import { motion } from "framer-motion";
-import { useLocation } from "react-router-dom";
 
 export default function PageTransition({ children }) {
-  const location = useLocation();
-  return (
-    <motion.div
-      key={location.pathname}
-      initial={{ opacity: 0, y: 12 }}
-      animate={{ opacity: 1, y: 0 }}
-      exit={{ opacity: 0, y: -12 }}
-      transition={{ duration: 0.35, ease: "easeOut" }}
-      className="min-h-[70vh]"
-    >
-      {children}
-    </motion.div>
-  );
+  return <main className="min-h-[70vh]">{children}</main>;
 }
