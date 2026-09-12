@@ -1,5 +1,5 @@
 /* src/index.css */
-/* Replaced Tailwind directives with custom pastel palette */
+@import "tailwindcss";
 
 /* Global Styles */
 html { scroll-behavior: smooth; }

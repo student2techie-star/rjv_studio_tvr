@@ -24,7 +24,7 @@ function App() {
 
   return (
     <HelmetProvider>
-      <Router>
+      <Router basename="/rjv_studio_tvr">
         <Header />
         {showIntro && <LogoIntro onFinish={handleIntroFinish} />}
         <PageTransition>

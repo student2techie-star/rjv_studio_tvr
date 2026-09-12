@@ -9,10 +9,10 @@ export default function Footer() {
         <p className="text-sm">© {new Date().getFullYear()} RJV Studios. All rights reserved.</p>
         <div className="flex justify-center space-x-4">
           <a href="https://www.instagram.com/rjv_studios_tvr/" target="_blank" rel="noopener noreferrer" aria-label="Instagram" className="hover:text-brand-300">
-            <Instagram size={24} />
+            <Camera size={24} />
           </a>
           <a href="https://www.youtube.com/@rjvstudiostvr7354" target="_blank" rel="noopener noreferrer" aria-label="YouTube" className="hover:text-brand-300">
-            <Youtube size={24} />
+            <CirclePlay size={24} />
           </a>
           <a href="https://wa.me/919003430930" target="_blank" rel="noopener noreferrer" aria-label="WhatsApp" className="hover:text-brand-300">
             <MessageCircle size={24} />
