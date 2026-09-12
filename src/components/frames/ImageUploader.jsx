@@ -76,10 +76,8 @@ export default function ImageUploader() {
       {/* Dropzone */}
       <motion.div
         layout
-        className={`relative rounded-3xl border-2 border-dashed p-10 sm:p-14 text-center transition-colors ${
-          dragging
-            ? "border-brand-500 bg-brand-100"
-            : "border-brand-300 bg-white hover:border-brand-400 hover:bg-brand-50"
+        className={`relative border-3d-dashed p-10 sm:p-14 text-center ${
+          dragging ? "!bg-brand-50" : ""
         }`}
         onDragOver={(e) => {
           e.preventDefault();
