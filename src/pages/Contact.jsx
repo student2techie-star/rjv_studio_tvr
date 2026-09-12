@@ -80,7 +80,7 @@ export default function Contact() {
     <>
       <Seo
         title="Contact RJV Studios — Location Map & Contact Details Thiruvarur"
-        description="Get in touch with RJV Studios in Thiruvarur. View our studio address on Google Maps, call +91 97893 25969, or chat on WhatsApp & Instagram."
+        description="Get in touch with RJV Studios in Thiruvarur. View our studio address on Google Maps, call +91 90034 30930, or chat on WhatsApp & Instagram."
         path="/contact"
       />
 

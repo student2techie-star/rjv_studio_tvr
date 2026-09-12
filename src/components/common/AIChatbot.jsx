@@ -7,7 +7,6 @@ import {
   X,
   Send,
   Camera,
-  Aperture,
   User,
   ExternalLink,
   RotateCcw,
@@ -25,72 +24,90 @@ const INITIAL_PROMPTS = [
   { label: "💰 Pricing & Quotes", query: "What are your package prices?" },
 ];
 
+function withNav(suggestions, isHome = false) {
+  const navItems = isHome
+    ? [{ label: "🏠 Home", query: "🏠 Main Menu" }]
+    : [
+        { label: "🏠 Home", query: "🏠 Main Menu" },
+        { label: "↩️ Back", query: "↩️ Back Options" },
+      ];
+
+  const filtered = suggestions.filter(
+    (s) => s.query !== "🏠 Main Menu" && s.query !== "↩️ Back Options"
+  );
+
+  return [...navItems, ...filtered];
+}
+
 const BOT_KNOWLEDGE = [
   {
     keywords: ["wedding", "muhurtham", "marriage", "reception", "sangeet", "nitchayathartham"],
     response:
       "💍 **Wedding & Reception Photography**\n\nWe provide full-day candid & traditional wedding coverage in Thiruvarur & Tamil Nadu:\n• Engagement & Nitchayathartham\n• Pre-Wedding Scenic Couple Session\n• Sacred Muhurtham & Rituals\n• Reception, Sangeet & Haldi\n• High-Res Albums & Teaser Reels",
     action: { label: "Book Wedding Shoot", to: "/book" },
-    suggestions: [
+    suggestions: withNav([
       { label: "💰 Wedding Prices", query: "What are your package prices?" },
       { label: "🖼️ Wedding Albums", query: "Tell me about custom photo frames" },
       { label: "💬 Chat on WhatsApp", query: "How to contact on WhatsApp?" },
-    ],
+    ]),
   },
   {
     keywords: ["baby", "kids", "child", "maternity", "newborn", "kadhukuthu", "birthday", "cake smash"],
     response:
       "👶 **Baby, Kids & Maternity Shoots**\n\nPreserve every sweet milestone with gentle care:\n• Maternity & Pregnancy Glow Sessions\n• Newborn Baby Shoots (0–3 months, safe theme props)\n• Ear Piercing Ceremony (Kadhukuthu Vizha)\n• 1st Birthday & Cake Smash Fun",
     action: { label: "Explore Baby Shoots", to: "/services" },
-    suggestions: [
+    suggestions: withNav([
       { label: "🎂 1st Birthday Shoots", query: "Tell me about 1st birthday shoots" },
       { label: "👂 Kadhukuthu Vizha", query: "Tell me about kadhukuthu ear piercing shoots" },
       { label: "📅 Book Baby Session", query: "How can I book a photography shoot?" },
-    ],
+    ]),
   },
   {
     keywords: ["service", "services", "offer", "what do you do"],
     response:
       "✨ **RJV Studios Services**\n\nWe specialize in:\n1. 💍 **Weddings & Pre-Wedding**\n2. 👶 **Baby, Kids & Maternity**\n3. 💛 **Traditional Ceremonies** (Puberty, Housewarming)\n4. 📸 **Studio & Outdoor Portraits**\n5. 🖼️ **3D Custom Photo Frames**",
     action: { label: "View All Services", to: "/services" },
-    suggestions: [
-      { label: "💍 Wedding Photography", query: "Tell me about wedding photography" },
-      { label: "👶 Baby & Maternity", query: "Tell me about baby photography" },
-      { label: "💛 Ceremonies (Manjal Neerattu)", query: "Tell me about traditional ceremonies" },
-      { label: "🖼️ 3D Photo Frames", query: "Tell me about custom photo frames" },
-    ],
+    suggestions: withNav(
+      [
+        { label: "💍 Wedding Photography", query: "Tell me about wedding photography" },
+        { label: "👶 Baby & Maternity", query: "Tell me about baby photography" },
+        { label: "💛 Ceremonies (Manjal Neerattu)", query: "Tell me about traditional ceremonies" },
+        { label: "🖼️ 3D Photo Frames", query: "Tell me about custom photo frames" },
+      ],
+      true
+    ),
   },
   {
     keywords: ["ceremony", "ceremonies", "manjal", "puberty", "grihapravesam", "housewarming", "temple", "pooja"],
     response:
       "💛 **Traditional Tamil Ceremonies**\n\nVibrant, respectful coverage of family rituals:\n• Manjal Neerattu Vizha (Puberty Ceremony)\n• Grihapravesam (Housewarming)\n• Temple Festivals & Family Poojas\n• Annaprasana & Milestone Rituals",
     action: { label: "View Ceremony Portfolio", to: "/portfolio" },
-    suggestions: [
+    suggestions: withNav([
       { label: "💛 Puberty Ceremony (Manjal Neerattu)", query: "Manjal Neerattu Vizha photography" },
       { label: "🏡 Housewarming Shoot", query: "Housewarming ceremony coverage" },
       { label: "📅 Book Ceremony Shoot", query: "How can I book a photography shoot?" },
-    ],
+    ]),
   },
   {
     keywords: ["frame", "frames", "3d", "acrylic", "glass", "wooden", "decor", "gift"],
     response:
       "🖼️ **3D Custom Photo Frames**\n\nHandcrafted photo art for your walls and gifts:\n• 3D Relief & Cutout Frames\n• Premium Glossy Acrylic & Glass Frames\n• Warm Wooden LED Backlight Frames\n\nUpload & preview your own photo on our website live!",
     action: { label: "Try 3D Frame Customizer", to: "/frames" },
-    suggestions: [
+    suggestions: withNav([
       { label: "🎨 Frame Preview Tool", query: "Where can I preview custom frames?" },
       { label: "🎁 Photo Frame Gifts", query: "Are frames good for gifts?" },
       { label: "💬 Order on WhatsApp", query: "How to order photo frames?" },
-    ],
+    ]),
   },
   {
     keywords: ["location", "address", "where", "map", "place", "city", "direction", "timing", "hours", "open"],
     response:
-      "📍 **RJV Studios & Photo Frames**\n\n• **Address**: Opposite HDFC Bank, Tiruvarur North, Thiruvarur, Tamil Nadu 610001\n• **Working Hours**: Open Daily 9:00 AM – 9:00 PM\n• **Phone/WhatsApp**: +91 97893 25969",
+      "📍 **RJV Studios & Photo Frames**\n\n• **Address**: Opposite HDFC Bank, Tiruvarur North, Thiruvarur, Tamil Nadu 610001\n• **Working Hours**: Open Daily 9:00 AM – 9:00 PM\n• **Phone/WhatsApp**: +91 90034 30930",
     action: { label: "Open Google Maps", external: "https://maps.google.com/?q=RJV+Studios+Thiruvarur" },
-    suggestions: [
+    suggestions: withNav([
       { label: "📅 Book Studio Visit", query: "How can I book a photography shoot?" },
       { label: "💬 Contact on WhatsApp", query: "How to contact on WhatsApp?" },
-    ],
+    ]),
   },
   {
     keywords: ["book", "booking", "reserve", "date", "appointment", "schedule", "contact"],
@@ -103,15 +120,15 @@ const BOT_KNOWLEDGE = [
         variant: "whatsapp",
       },
       {
-        label: "Call Studio (+91 97893 25969)",
-        external: "tel:+919789325969",
+        label: "Call Studio (+91 90034 30930)",
+        external: "tel:+919003430930",
         variant: "call",
       },
     ],
-    suggestions: [
+    suggestions: withNav([
       { label: "📝 Fill Booking Form", query: "How can I book a photography shoot?" },
       { label: "📸 Explore Services First", query: "What photography services do you offer?" },
-    ],
+    ]),
   },
   {
     keywords: ["price", "cost", "pricing", "rate", "quote", "charge", "budget", "amount", "package"],
@@ -124,26 +141,29 @@ const BOT_KNOWLEDGE = [
         variant: "whatsapp",
       },
       {
-        label: "Call Studio (+91 97893 25969)",
-        external: "tel:+919789325969",
+        label: "Call Studio (+91 90034 30930)",
+        external: "tel:+919003430930",
         variant: "call",
       },
     ],
-    suggestions: [
+    suggestions: withNav([
       { label: "💍 Wedding Photography Info", query: "Tell me about wedding photography" },
       { label: "👶 Baby Shoot Info", query: "Tell me about baby photography" },
       { label: "🖼️ 3D Photo Frames", query: "Tell me about custom photo frames" },
-    ],
+    ]),
   },
   {
     keywords: ["hi", "hello", "hey", "vanakkam", "assistant"],
     response:
       "Vanakkam! 👋 Welcome to RJV Studios AI Assistant. What would you like to know about today?",
-    suggestions: [
-      { label: "💰 Pricing & Quotes", query: "What are your package prices?" },
-      { label: "📸 Services Offered", query: "What photography services do you offer?" },
-      { label: "🖼️ 3D Photo Frames", query: "Tell me about custom photo frames" },
-    ],
+    suggestions: withNav(
+      [
+        { label: "💰 Pricing & Quotes", query: "What are your package prices?" },
+        { label: "📸 Services Offered", query: "What photography services do you offer?" },
+        { label: "🖼️ 3D Photo Frames", query: "Tell me about custom photo frames" },
+      ],
+      true
+    ),
   },
 ];
 
@@ -166,11 +186,11 @@ function getBotReply(userText) {
           variant: "call",
         },
       ],
-      suggestions: [
+      suggestions: withNav([
         { label: "💍 Wedding Photography", query: "Tell me about wedding photography" },
         { label: "👶 Baby Shoots", query: "Tell me about baby photography" },
         { label: "🖼️ 3D Photo Frames", query: "Tell me about custom photo frames" },
-      ],
+      ]),
     };
   }
 
@@ -195,7 +215,7 @@ function getBotReply(userText) {
         variant: "call",
       },
     ],
-    suggestions: INITIAL_PROMPTS,
+    suggestions: withNav(INITIAL_PROMPTS, true),
   };
 }
 
@@ -204,6 +224,7 @@ export default function AIChatbot() {
   const [input, setInput] = useState("");
   const [isTyping, setIsTyping] = useState(false);
   const [currentSuggestions, setCurrentSuggestions] = useState(INITIAL_PROMPTS);
+  const [suggestionStack, setSuggestionStack] = useState([INITIAL_PROMPTS]);
   const [messages, setMessages] = useState([
     {
       id: "welcome",
@@ -229,6 +250,55 @@ export default function AIChatbot() {
     const query = textToSend || input;
     if (!query.trim()) return;
 
+    // Handle Home Navigation
+    if (query === "🏠 Main Menu" || query === "Home" || query === "__GO_HOME__") {
+      const userMsg = { id: Date.now().toString(), sender: "user", text: "🏠 Main Menu" };
+      setMessages((prev) => [...prev, userMsg]);
+      setIsTyping(true);
+
+      setTimeout(() => {
+        const botMsg = {
+          id: (Date.now() + 1).toString(),
+          sender: "bot",
+          text: "Vanakkam! 👋 Returned to Main Menu. Select a topic below to explore:",
+          suggestions: INITIAL_PROMPTS,
+        };
+        setMessages((prev) => [...prev, botMsg]);
+        setCurrentSuggestions(INITIAL_PROMPTS);
+        setSuggestionStack([INITIAL_PROMPTS]);
+        setIsTyping(false);
+      }, 350);
+      return;
+    }
+
+    // Handle Back Navigation
+    if (query === "↩️ Back Options" || query === "Back" || query === "__GO_BACK__") {
+      const userMsg = { id: Date.now().toString(), sender: "user", text: "↩️ Back" };
+      setMessages((prev) => [...prev, userMsg]);
+      setIsTyping(true);
+
+      setTimeout(() => {
+        let prevSug = INITIAL_PROMPTS;
+        if (suggestionStack.length > 1) {
+          const newStack = suggestionStack.slice(0, -1);
+          prevSug = newStack[newStack.length - 1];
+          setSuggestionStack(newStack);
+        }
+
+        const botMsg = {
+          id: (Date.now() + 1).toString(),
+          sender: "bot",
+          text: "Returned to previous options. What else would you like to explore?",
+          suggestions: prevSug,
+        };
+        setMessages((prev) => [...prev, botMsg]);
+        setCurrentSuggestions(prevSug);
+        setIsTyping(false);
+      }, 350);
+      return;
+    }
+
+    // Normal User Query
     const userMsg = { id: Date.now().toString(), sender: "user", text: query };
     setMessages((prev) => [...prev, userMsg]);
     if (!textToSend) setInput("");
@@ -245,11 +315,13 @@ export default function AIChatbot() {
         suggestions: reply.suggestions,
       };
       setMessages((prev) => [...prev, botMsg]);
+
       if (reply.suggestions) {
         setCurrentSuggestions(reply.suggestions);
+        setSuggestionStack((prev) => [...prev, reply.suggestions]);
       }
       setIsTyping(false);
-    }, 550);
+    }, 500);
   };
 
   const handleReset = () => {
@@ -262,6 +334,7 @@ export default function AIChatbot() {
       },
     ]);
     setCurrentSuggestions(INITIAL_PROMPTS);
+    setSuggestionStack([INITIAL_PROMPTS]);
   };
 
   return (
@@ -414,10 +487,18 @@ export default function AIChatbot() {
                             <button
                               key={sug.label}
                               onClick={() => handleSend(sug.query)}
-                              className="inline-flex items-center gap-0.5 text-[10.5px] font-semibold text-brand-800 bg-brand-50 hover:bg-brand-100 border border-brand-200/80 hover:border-brand-400 px-2 py-0.5 rounded-full transition-colors"
+                              className={`inline-flex items-center gap-0.5 text-[10.5px] font-semibold px-2 py-0.5 rounded-full transition-colors border ${
+                                sug.query === "🏠 Main Menu"
+                                  ? "bg-brand-900 text-amber-300 border-brand-800 hover:bg-brand-800"
+                                  : sug.query === "↩️ Back Options"
+                                  ? "bg-slate-100 text-slate-800 border-slate-300 hover:bg-slate-200"
+                                  : "bg-brand-50 text-brand-800 border-brand-200/80 hover:bg-brand-100 hover:border-brand-400"
+                              }`}
                             >
                               <span>{sug.label}</span>
-                              <ChevronRight size={10} className="text-brand-500" />
+                              {sug.query !== "🏠 Main Menu" && sug.query !== "↩️ Back Options" && (
+                                <ChevronRight size={10} className="text-brand-500" />
+                              )}
                             </button>
                           ))}
                         </div>
@@ -456,7 +537,13 @@ export default function AIChatbot() {
                 <button
                   key={qp.label}
                   onClick={() => handleSend(qp.query)}
-                  className="rounded-full bg-white border border-brand-200 hover:border-brand-400 px-2 py-0.5 text-[10px] font-semibold text-brand-800 shadow-2xs hover:bg-brand-100 transition-colors flex items-center gap-1"
+                  className={`rounded-full border px-2 py-0.5 text-[10px] font-semibold shadow-2xs transition-colors flex items-center gap-1 ${
+                    qp.query === "🏠 Main Menu"
+                      ? "bg-brand-900 text-amber-300 border-brand-800 hover:bg-brand-800"
+                      : qp.query === "↩️ Back Options"
+                      ? "bg-slate-100 text-slate-800 border-slate-300 hover:bg-slate-200"
+                      : "bg-white text-brand-800 border-brand-200 hover:border-brand-400 hover:bg-brand-100"
+                  }`}
                 >
                   <span>{qp.label}</span>
                 </button>
