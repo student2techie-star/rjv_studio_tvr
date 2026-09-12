@@ -1,10 +1,6 @@
 // src/components/common/Container.jsx
 import React from "react";
 
-export default function Container({ children, className = "" }) {
-  return (
-    <div className={`container mx-auto px-4 ${className}`}>
-      {children}
-    </div>
-  );
+export default function Container({ children, className = "", as: Tag = "div" }) {
+  return <Tag className={`mx-auto w-full max-w-6xl px-4 sm:px-6 lg:px-8 ${className}`}>{children}</Tag>;
 }

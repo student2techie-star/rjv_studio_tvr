@@ -1,29 +1,54 @@
 // src/pages/Services.jsx
 import React from "react";
-import { Helmet } from "react-helmet-async";
+import { motion } from "framer-motion";
+import Seo from "../components/common/Seo";
 import Container from "../components/common/Container";
 import ServiceCard from "../components/services/ServiceCard";
+import BookingCTA from "../components/home/BookingCTA";
 import { services } from "../data/services";
+import { useScrollReveal, staggerContainer, staggerItem } from "../hooks/useScrollReveal";
 
 export default function Services() {
   return (
     <>
-      <Helmet>
-        <title>Services – RJV Studios</title>
-        <meta name="description" content="Explore the premium photography services offered by RJV Studios, including wedding, engagement, portrait, and more." />
-        <link rel="canonical" href="/services" />
-        <meta property="og:title" content="Services – RJV Studios" />
-        <meta property="og:description" content="Explore the premium photography services offered by RJV Studios, including wedding, engagement, portrait, and more." />
-        <meta property="og:image" content="/images/og-services.webp" />
-      </Helmet>
-      <Container className="py-16">
-        <h1 className="text-4xl md:text-5xl font-semibold text-brand-800 mb-8 text-center">Our Services</h1>
-        <div className="grid md:grid-cols-3 gap-8">
-          {services.map((svc) => (
-            <ServiceCard key={svc.id} service={svc} />
-          ))}
-        </div>
-      </Container>
+      <Seo
+        title="Services"
+        description="Explore RJV Studios photography services — weddings, engagements, baby shoots, ceremonies, portraits and events, from Thiruvarur."
+        path="/services"
+      />
+
+      <section className="relative overflow-hidden bg-gradient-to-b from-brand-100 via-brand-50 to-white pt-20 pb-12 lg:pt-28 text-center">
+        <Container>
+          <motion.div {...useScrollReveal({ y: 16 })}>
+            <p className="eyebrow mb-4">Our services</p>
+            <h1 className="text-section max-w-2xl mx-auto">
+              A service for every celebration
+            </h1>
+            <p className="text-body mt-6 max-w-xl mx-auto">
+              Weddings, engagements, baby sessions, ceremonies and events — each
+              captured with the same care and polish.
+            </p>
+          </motion.div>
+        </Container>
+      </section>
+
+      <section className="py-12 lg:py-16">
+        <Container>
+          <motion.div
+            variants={staggerContainer}
+            initial="hidden"
+            whileInView="show"
+            viewport={{ once: true, amount: 0.1 }}
+            className="grid gap-7 md:grid-cols-2 lg:grid-cols-3"
+          >
+            {services.map((service) => (
+              <ServiceCard key={service.id} service={service} revealProps={staggerItem} />
+            ))}
+          </motion.div>
+        </Container>
+      </section>
+
+      <BookingCTA />
     </>
   );
 }

@@ -1,32 +1,27 @@
 // src/pages/Home.jsx
 import React from "react";
-import { Helmet } from "react-helmet-async";
+import Seo from "../components/common/Seo";
 import Hero from "../components/home/Hero";
-// Placeholder imports for remaining home sections
-// import Intro from "../components/home/Intro"; // removed missing component
-// import ServicesPreview from "../components/home/ServicesPreview"; // removed missing component
-// import FeaturedPortfolio from "../components/home/FeaturedPortfolio"; // removed missing component
-// import SocialSection from "../components/home/SocialSection"; // removed missing component
-// import BookingCTA from "../components/home/BookingCTA"; // removed missing component
+import Intro from "../components/home/Intro";
+import ServicesPreview from "../components/home/ServicesPreview";
+import FeaturedPortfolio from "../components/home/FeaturedPortfolio";
+import SocialSection from "../components/home/SocialSection";
+import BookingCTA from "../components/home/BookingCTA";
 
 export default function Home() {
   return (
     <>
-      <Helmet>
-        <title>RJV Studios – Premium Photography</title>
-        <meta name="description" content="Experience premium photography services – weddings, events, portraits, and more. Capture your moments with style and elegance." />
-        <link rel="canonical" href="/" />
-        <meta property="og:title" content="RJV Studios – Premium Photography" />
-        <meta property="og:description" content="Experience premium photography services – weddings, events, portraits, and more. Capture your moments with style and elegance." />
-        <meta property="og:image" content="/images/og-home.webp" />
-      </Helmet>
+      <Seo
+        title="Premium Photography"
+        description="RJV Studios — premium wedding, ceremony, baby, portrait and event photography from Thiruvarur. Preserve your precious moments with an editorial touch."
+        path="/"
+      />
       <Hero />
-      {/* The following sections can be fleshed out later */}
-      {/* <Intro /> */}
-      {/* <ServicesPreview /> */}
-      {/* <FeaturedPortfolio /> */}
-      {/* <SocialSection /> */}
-      {/* <BookingCTA /> */}
+      <Intro />
+      <ServicesPreview />
+      <FeaturedPortfolio />
+      <SocialSection />
+      <BookingCTA />
     </>
   );
 }
