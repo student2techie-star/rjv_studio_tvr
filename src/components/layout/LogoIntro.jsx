@@ -1,19 +1,24 @@
 // src/components/layout/LogoIntro.jsx
-import React, { useCallback, useEffect, useRef, useState } from "react";
-import { motion } from "framer-motion";
+// Full-screen loading intro that uses the RJV Studio logo image
+// with a cinematic flash sequence before revealing the site.
 
+import React, { useCallback, useEffect, useRef, useState } from "react";
+import { motion, AnimatePresence } from "framer-motion";
+
+const LOGO_SRC = `${import.meta.env.BASE_URL}images/logo.png`;
+
+// Sequence stages
 const STAGES = [
-  { key: "lens", ms: 750 },
-  { key: "aperture", ms: 1200 },
-  { key: "focus", ms: 950 },
-  { key: "pulse", ms: 700 },
-  { key: "flash", ms: 420 },
-  { key: "white", ms: 1000 },
-  { key: "done", ms: 0 },
+  { key: "reveal",  ms: 900  },   // logo fades in
+  { key: "glow",    ms: 800  },   // golden glow builds up
+  { key: "flash1",  ms: 180  },   // first flash burst
+  { key: "dim",     ms: 500  },   // brief dim between flashes
+  { key: "flash2",  ms: 200  },   // second bigger flash
+  { key: "white",   ms: 700  },   // full white screen hold
+  { key: "done",    ms: 0    },
 ];
 
 const LAST = STAGES.length - 1;
-const blades = [0, 60, 120, 180, 240, 300];
 
 function prefersReducedMotion() {
   return (
@@ -27,9 +32,7 @@ export default function LogoIntro({ onFinish }) {
   const finishedRef = useRef(false);
   const onFinishRef = useRef(onFinish);
 
-  useEffect(() => {
-    onFinishRef.current = onFinish;
-  }, [onFinish]);
+  useEffect(() => { onFinishRef.current = onFinish; }, [onFinish]);
 
   const finish = useCallback(() => {
     if (finishedRef.current) return;
@@ -38,19 +41,16 @@ export default function LogoIntro({ onFinish }) {
     onFinishRef.current?.();
   }, []);
 
-  // Skip entirely when already seen this session (or reduced motion).
+  // Skip if already seen or reduced motion preference
   useEffect(() => {
     if (sessionStorage.getItem("logoIntroShown") === "true" || prefersReducedMotion()) {
       finish();
     }
   }, [finish]);
 
-  // Step through the sequence.
+  // Advance through stages
   useEffect(() => {
-    if (stageIdx >= LAST) {
-      finish();
-      return;
-    }
+    if (stageIdx >= LAST) { finish(); return; }
     const t = setTimeout(() => setStageIdx((i) => i + 1), STAGES[stageIdx].ms);
     return () => clearTimeout(t);
   }, [stageIdx, finish]);
@@ -58,139 +58,126 @@ export default function LogoIntro({ onFinish }) {
   if (stageIdx >= LAST) return null;
 
   const stage = STAGES[stageIdx].key;
+  const isFlash  = stage === "flash1" || stage === "flash2";
+  const isWhite  = stage === "white";
+  const showGlow = stage === "glow" || stage === "flash1" || stage === "dim" || stage === "flash2";
 
   return (
     <motion.div
-      className="fixed inset-0 z-[100] flex items-center justify-center overflow-hidden"
-      animate={{
-        background:
-          stage === "flash" || stage === "white" ? "#FFFFFF" : "#EEF9FE",
-      }}
-      transition={{ duration: 0.25 }}
+      className="fixed inset-0 z-[100] flex items-center justify-center overflow-hidden cursor-pointer select-none"
+      style={{ background: "#0a0a0a" }}
+      animate={{ backgroundColor: isFlash || isWhite ? "#ffffff" : "#0a0a0a" }}
+      transition={{ duration: isFlash ? 0.06 : isWhite ? 0.3 : 0.4 }}
       onClick={finish}
       role="button"
       tabIndex={-1}
-      aria-label="Intro — tap to continue"
+      aria-label="Intro — tap to skip"
     >
-      {/* Aperture blades — appear in "lens", rotate in "aperture" */}
-      {(stage === "lens" || stage === "aperture") && (
-        <svg width="230" height="230" viewBox="0 0 230 230" className="absolute">
-          <motion.g
-            initial={{ rotate: 0, opacity: 0.1 }}
-            animate={{
-              rotate: stage === "aperture" ? 90 : 0,
-              opacity: stage === "aperture" ? 1 : 0.15,
-            }}
-            transition={{ duration: 1.05, ease: "easeInOut" }}
-            style={{ transformOrigin: "115px 115px" }}
-          >
-            {blades.map((angle) => (
-              <ellipse
-                key={angle}
-                cx="115"
-                cy="115"
-                rx="125"
-                ry="32"
-                fill="#6FAED0"
-                opacity="0.85"
-                transform={`rotate(${angle} 115 115)`}
-              />
-            ))}
-          </motion.g>
-        </svg>
-      )}
-
-      {/* Lens barrel rings */}
-      <motion.svg
-        width="200"
-        height="200"
-        viewBox="0 0 200 200"
-        className="absolute"
-        initial={{ opacity: 0, scale: 0.6 }}
+      {/* ── Logo image ── */}
+      <motion.div
+        className="relative flex items-center justify-center"
+        initial={{ opacity: 0, scale: 0.82 }}
         animate={{
-          opacity: 1,
-          scale: stage === "focus" || stage === "pulse" ? 0.9 : 1,
+          opacity: isFlash || isWhite ? 0 : 1,
+          scale:   stage === "glow" || stage === "flash1" ? 1.04 : 1,
         }}
-        transition={{ duration: 0.5, ease: "easeOut" }}
+        transition={{ duration: 0.55, ease: "easeOut" }}
       >
-        <circle cx="100" cy="100" r="92" fill="none" stroke="#4F91B6" strokeWidth="5" opacity="0.45" />
-        <circle cx="100" cy="100" r="70" fill="none" stroke="#6FAED0" strokeWidth="4" />
-        <circle cx="100" cy="100" r="48" fill="none" stroke="#AFDBF5" strokeWidth="3" />
-      </motion.svg>
-
-      {/* Focus pulse */}
-      {(stage === "pulse" || stage === "flash") && (
-        <motion.svg
-          width="200"
-          height="200"
-          viewBox="0 0 200 200"
-          className="absolute"
-        >
-          <motion.circle
-            cx="100"
-            cy="100"
-            r="60"
-            fill="none"
-            stroke="#AFDBF5"
-            strokeWidth="7"
-            initial={{ scale: 0.7, opacity: 0 }}
-            animate={{ scale: 1.3, opacity: [0, 1, 0] }}
-            transition={{
-              duration: 0.65,
-              repeat: stage === "pulse" ? Infinity : 0,
-              repeatType: "reverse",
-            }}
-          />
-        </motion.svg>
-      )}
-
-      {/* Aperture opening — the focus step */}
-      {(stage === "focus" || stage === "pulse" || stage === "flash") && (
-        <motion.svg
-          width="170"
-          height="170"
-          viewBox="0 0 170 170"
-          className="absolute"
-          initial={{ opacity: 0 }}
-          animate={{ opacity: 1, scale: stage === "flash" ? 1.08 : 1 }}
-        >
-          {blades.map((angle) => (
-            <ellipse
-              key={angle}
-              cx="85"
-              cy="85"
-              rx="95"
-              ry="24"
-              fill="#245A73"
-              opacity="0.9"
-              transform={`rotate(${angle} 85 85)`}
-            />
-          ))}
-          <circle cx="85" cy="85" r="16" fill="#AFDBF5" />
-          <circle cx="85" cy="85" r="7" fill="#173B52" />
-        </motion.svg>
-      )}
-
-      {/* Flash → pure white screen */}
-      {(stage === "flash" || stage === "white") && (
-        <motion.div
-          className="absolute inset-0 bg-white"
-          initial={{ opacity: 0 }}
-          animate={{ opacity: 1 }}
-          transition={{ duration: 0.15 }}
+        {/* Logo image */}
+        <motion.img
+          src={LOGO_SRC}
+          alt="RJV Studios"
+          style={{ width: 260, height: 260, objectFit: "contain" }}
+          /* Invert to look good on dark background */
+          animate={{ filter: "brightness(1.15) drop-shadow(0 0 24px rgba(255,213,79,0.0))" }}
         />
-      )}
 
-      <style>{`svg { overflow: visible; }`}</style>
+        {/* Golden glow overlay on lens */}
+        <AnimatePresence>
+          {showGlow && (
+            <motion.span
+              key="glow"
+              aria-hidden="true"
+              initial={{ opacity: 0, scale: 0.5 }}
+              animate={{
+                opacity: stage === "glow" ? 0.85 : stage === "dim" ? 0.4 : 1,
+                scale:   stage === "flash1" || stage === "flash2" ? 1.6 : 1,
+              }}
+              exit={{ opacity: 0, scale: 2, transition: { duration: 0.25 } }}
+              transition={{ duration: 0.3, ease: "easeOut" }}
+              style={{
+                position: "absolute",
+                /* Lens center is ~50% X, ~27% Y of the 260px image */
+                top:    "27%",
+                left:   "50%",
+                transform: "translate(-50%, -50%)",
+                width:  90,
+                height: 90,
+                borderRadius: "50%",
+                background:
+                  "radial-gradient(circle, #fffde7 0%, #ffd54f 28%, rgba(255,213,79,0.35) 60%, transparent 80%)",
+                boxShadow: `
+                  0 0 40px 20px rgba(255,213,79,0.9),
+                  0 0 90px 40px rgba(255,220,100,0.55),
+                  0 0 160px 60px rgba(255,240,180,0.25)
+                `,
+                mixBlendMode: "screen",
+                pointerEvents: "none",
+              }}
+            />
+          )}
+        </AnimatePresence>
+
+        {/* Flash shutter ray burst */}
+        <AnimatePresence>
+          {isFlash && (
+            <motion.span
+              key="rays"
+              aria-hidden="true"
+              initial={{ opacity: 0.9, scale: 0.6 }}
+              animate={{ opacity: 0, scale: 2.8 }}
+              transition={{ duration: stage === "flash2" ? 0.22 : 0.18, ease: "easeOut" }}
+              style={{
+                position: "absolute",
+                top:    "27%",
+                left:   "50%",
+                transform: "translate(-50%, -50%)",
+                width:  140,
+                height: 140,
+                borderRadius: "50%",
+                background:
+                  "radial-gradient(circle, rgba(255,255,255,0.95) 0%, rgba(255,240,180,0.6) 40%, transparent 70%)",
+                pointerEvents: "none",
+                mixBlendMode: "screen",
+              }}
+            />
+          )}
+        </AnimatePresence>
+      </motion.div>
+
+      {/* Full white flash veil */}
+      <AnimatePresence>
+        {(isFlash || isWhite) && (
+          <motion.div
+            key="veil"
+            className="absolute inset-0 bg-white"
+            initial={{ opacity: 0 }}
+            animate={{ opacity: isFlash ? 0.9 : 1 }}
+            exit={{ opacity: 0 }}
+            transition={{ duration: 0.1 }}
+          />
+        )}
+      </AnimatePresence>
 
       {/* Skip hint */}
       <motion.p
-        className="absolute bottom-6 text-sm font-medium tracking-widest text-brand-600/80 uppercase"
+        className="absolute bottom-8 text-xs font-semibold tracking-[0.25em] uppercase"
+        style={{ color: "rgba(255,255,255,0.45)" }}
         initial={{ opacity: 0 }}
-        animate={{ opacity: stage === "white" ? 0 : 1 }}
-        transition={{ delay: 0.4, duration: 0.4 }}
+        animate={{ opacity: isFlash || isWhite ? 0 : 0.7 }}
+        transition={{ delay: 0.6, duration: 0.4 }}
       >
-        Tap anywhere to continue
+        Tap anywhere to skip
       </motion.p>
     </motion.div>
   );
