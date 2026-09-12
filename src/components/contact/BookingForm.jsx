@@ -51,8 +51,10 @@ export default function BookingForm() {
   };
 
   const inputCls = (field) =>
-    `w-full rounded-xl border bg-white px-4 py-3 text-brand-900 placeholder:text-brand-300 outline-none transition-colors focus:border-brand-500 focus:ring-2 focus:ring-brand-300 ${
-      errors[field] ? "border-rose-400" : "border-brand-200"
+    `w-full rounded-xl bg-white px-4 py-3 text-brand-900 placeholder:text-brand-300 outline-none transition-all ${
+      errors[field]
+        ? "shadow-[inset_0_0_0_2px_#f43f5e,-2px_-2px_0_0_#f43f5e,2px_2px_0_0_#be123c]"
+        : "shadow-[-2px_-2px_0_0_#c8a951,2px_2px_0_0_#7a6020,0_2px_8px_rgba(200,169,81,0.12)] focus:shadow-[-3px_-3px_0_0_#d4b44a,3px_3px_0_0_#5c4810,0_4px_16px_rgba(200,169,81,0.22)] focus:bg-[#fffdf5]"
     }`;
 
   return (
