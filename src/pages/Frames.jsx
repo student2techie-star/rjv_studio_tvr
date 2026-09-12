@@ -1,27 +1,33 @@
 // src/pages/Frames.jsx
 import React from "react";
 import { motion } from "framer-motion";
-import { ShieldCheck, Lock, Clock, Film } from "lucide-react";
+import { Upload, Sparkles, Clock, ShieldCheck } from "lucide-react";
 import Seo from "../components/common/Seo";
 import Container from "../components/common/Container";
 import ImageUploader from "../components/frames/ImageUploader";
-import { useScrollReveal } from "../hooks/useScrollReveal";
+import { useScrollReveal, staggerContainer, staggerItem } from "../hooks/useScrollReveal";
 
-const NOTES = [
+// Replace this YouTube video ID with RJV Studio's actual reference video ID
+const YOUTUBE_VIDEO_ID = "dQw4w9WgXcQ";
+
+const HOW_IT_WORKS = [
   {
-    icon: ShieldCheck,
-    title: "Private & secure",
-    body: "Your photo goes straight to the studio. No public gallery, no third-party uploads.",
+    icon: Upload,
+    step: "01",
+    title: "Upload your photo",
+    body: "Select any high-resolution photo from your device and upload it securely to our studio.",
   },
   {
-    icon: Lock,
-    title: "Only the studio sees it",
-    body: "We validate the file type and size before accepting it — your image stays yours.",
+    icon: Sparkles,
+    step: "02",
+    title: "Our frames work for you",
+    body: "We hand-pick the perfect frame style that complements your photo — portrait, landscape or square.",
   },
   {
     icon: Clock,
-    title: "Quick turnaround",
-    body: "Send your frame and we'll work on it — edited frames come back on WhatsApp.",
+    step: "03",
+    title: "Receive it on WhatsApp",
+    body: "Your beautifully framed photo is sent back to you directly — quick, private, and hassle-free.",
   },
 ];
 
@@ -32,13 +38,13 @@ export default function Frames() {
     <>
       <Seo
         title="Send Your Frame"
-        description="Private client upload — send your photograph in high quality to RJV Studios for framing and editing."
+        description="Upload your photo and let RJV Studios frame it for you — private, quick and delivered on WhatsApp."
         path="/frames"
       />
 
-      {/* Client-utility banner */}
+      {/* Hero */}
       <section className="relative overflow-hidden bg-brand-900 pt-20 pb-14 lg:pt-28 lg:pb-20 text-center">
-        <div className="absolute inset-0 opacity-20">
+        <div className="absolute inset-0 opacity-10 pointer-events-none">
           <svg className="absolute -top-20 -right-20 w-[400px] h-[400px] text-brand-300" viewBox="0 0 200 200" aria-hidden="true">
             {[0, 60, 120, 180, 240, 300].map((a) => (
               <ellipse key={a} cx="100" cy="100" rx="120" ry="34" fill="currentColor" transform={`rotate(${a} 100 100)`} />
@@ -48,63 +54,93 @@ export default function Frames() {
         <Container className="relative">
           <motion.div {...reveal}>
             <p className="eyebrow text-brand-300 mb-4">Client utility · Private</p>
-            <h1 className="text-section !text-white">Send your frame</h1>
+            <h1 className="text-section !text-white">Our frames, your memories</h1>
             <p className="text-body !text-brand-100/90 mt-5 max-w-lg mx-auto">
-              Upload your photograph in high quality. We'll frame, edit and send
-              it back to you — no lines, no hassle.
+              Upload your photo and let RJV Studios frame it beautifully — no queues, no hassle, delivered straight to your WhatsApp.
             </p>
           </motion.div>
         </Container>
       </section>
 
-      {/* Uploader */}
-      <section className="py-14 lg:py-20 bg-brand-50 min-h-[50vh]">
-          <div className="video-above-wrap">
-            <video
-              className="w-full h-48 object-cover rounded-2xl bg-brand-900"
-              src={`${import.meta.env.BASE_URL}videos/frames-demo.mp4`}
-              playsInline
-              muted
-              preload="metadata"
-            />
-            <p className="text-caption text-center mt-2">Reference video — replace with your final clip</p>
-          </div>
+      {/* Reference Video */}
+      <section className="py-12 bg-white border-b border-brand-100">
         <Container className="max-w-3xl">
-          <ImageUploader />
-
-          <div className="mt-10 rounded-3xl border border-brand-100 bg-white p-6 sm:p-8 shadow-soft">
-            <div className="mb-4 flex flex-wrap items-center gap-3">
-              <span className="grid h-10 w-10 shrink-0 place-items-center rounded-full bg-brand-100 text-brand-600">
-                <Film size={20} />
-              </span>
-              <div>
-                <h2 className="text-lg font-semibold text-brand-900">Reference video</h2>
-                <p className="text-caption mt-0.5">
-                  A short demo clip. Replace <code className="rounded bg-brand-100 px-1.5 py-0.5 text-xs text-brand-700">public/videos/frames-demo.mp4</code> with your final video.
-                </p>
-              </div>
+          <motion.div {...useScrollReveal({ delay: 0.05 })}>
+            <p className="eyebrow mb-3 text-center">See how it works</p>
+            <h2 className="text-section text-center mb-8">Watch our frame showcase</h2>
+            <div className="rounded-3xl overflow-hidden shadow-xl border border-brand-100 aspect-video">
+              <iframe
+                src={`https://www.youtube.com/embed/${YOUTUBE_VIDEO_ID}?rel=0&modestbranding=1`}
+                title="RJV Studio frame reference video"
+                className="w-full h-full border-0"
+                allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture"
+                allowFullScreen
+              />
             </div>
-            <video
-              className="aspect-video w-full rounded-2xl bg-brand-900 object-cover"
-              src={`${import.meta.env.BASE_URL}videos/frames-demo.mp4`}
-              controls
-              playsInline
-              preload="metadata"
-              title="Dummy video placeholder"
-            />
-          </div>
+          </motion.div>
+        </Container>
+      </section>
 
-          <div className="mt-14 grid gap-6 sm:grid-cols-3">
-            {NOTES.map((n) => (
-              <div key={n.title} className="card-soft p-6 text-center">
-                <span className="mx-auto mb-3 grid h-11 w-11 place-items-center rounded-full bg-brand-100 text-brand-700">
-                  <n.icon size={22} />
+      {/* Upload Section */}
+      <section className="py-14 lg:py-20 bg-brand-50">
+        <Container className="max-w-3xl">
+
+          {/* Uploader */}
+          <motion.div {...useScrollReveal({ delay: 0.05 })}>
+            <ImageUploader />
+          </motion.div>
+
+          {/* Text below upload */}
+          <motion.div
+            {...useScrollReveal({ delay: 0.12 })}
+            className="mt-10 rounded-3xl bg-white border border-brand-100 p-8 text-center shadow-sm"
+          >
+            <span className="inline-flex items-center justify-center h-14 w-14 rounded-full bg-brand-100 text-brand-600 mx-auto mb-4">
+              <Sparkles size={26} />
+            </span>
+            <h2 className="text-xl font-bold text-brand-900 mb-2">
+              Our frames work for you
+            </h2>
+            <p className="text-body max-w-md mx-auto text-brand-600">
+              Once you upload your image, our team personally selects the best frame style for your photo and delivers it right to your WhatsApp — simple, private, and beautiful.
+            </p>
+          </motion.div>
+
+          {/* How it works steps */}
+          <motion.div
+            variants={staggerContainer}
+            initial="hidden"
+            whileInView="show"
+            viewport={{ once: true }}
+            className="mt-10 grid gap-5 sm:grid-cols-3"
+          >
+            {HOW_IT_WORKS.map((item) => (
+              <motion.div
+                key={item.step}
+                variants={staggerItem}
+                className="card-soft p-6 text-center"
+              >
+                <span className="inline-flex items-center justify-center h-11 w-11 rounded-full bg-brand-100 text-brand-700 mx-auto mb-3">
+                  <item.icon size={20} />
                 </span>
-                <h3 className="font-semibold text-brand-900">{n.title}</h3>
-                <p className="text-caption mt-2">{n.body}</p>
-              </div>
+                <p className="text-xs font-bold tracking-widest text-brand-400 mb-1">STEP {item.step}</p>
+                <h3 className="font-semibold text-brand-900 mb-2">{item.title}</h3>
+                <p className="text-caption">{item.body}</p>
+              </motion.div>
             ))}
-          </div>
+          </motion.div>
+
+          {/* Privacy note */}
+          <motion.div
+            {...useScrollReveal({ delay: 0.1 })}
+            className="mt-8 flex items-center gap-3 rounded-2xl bg-green-50 border border-green-200 px-5 py-4"
+          >
+            <ShieldCheck size={22} className="text-green-600 shrink-0" />
+            <p className="text-sm text-green-800">
+              <strong>Private &amp; secure</strong> — your photo goes straight to the studio. No public gallery, no third-party uploads.
+            </p>
+          </motion.div>
+
         </Container>
       </section>
     </>

@@ -6,5 +6,4 @@ export const NAV = [
   { to: "/portfolio", label: "Portfolio" },
   { to: "/frames", label: "Frames" },
   { to: "/contact", label: "Contact" },
-  { to: "/book", label: "Book Now" },
 ];
