@@ -17,14 +17,27 @@ import Contact from "./pages/Contact";
 import Book from "./pages/Book";
 
 function App() {
-  // Show logo intro on every page load / refresh.
-  const [showIntro, setShowIntro] = useState(true);
+  // Play logo intro only on first load per session (prevents white screen on subpages/navigation)
+  const [showIntro, setShowIntro] = useState(() => {
+    try {
+      return !sessionStorage.getItem("rjv_intro_seen");
+    } catch {
+      return true;
+    }
+  });
+
+  const handleFinishIntro = () => {
+    setShowIntro(false);
+    try {
+      sessionStorage.setItem("rjv_intro_seen", "true");
+    } catch {}
+  };
 
   return (
     <HelmetProvider>
       <Router basename="/rjv_studio_tvr">
         <ScrollToTop />
-        {showIntro && <LogoIntro onFinish={() => setShowIntro(false)} />}
+        {showIntro && <LogoIntro onFinish={handleFinishIntro} />}
         <Header />
         <PageTransition>
           <Routes>

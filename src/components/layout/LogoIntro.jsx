@@ -41,6 +41,14 @@ export default function LogoIntro({ onFinish }) {
 
   useEffect(() => { if (prefersReducedMotion()) finish(); }, [finish]);
 
+  // Absolute safety timeout: Guarantee intro finishes in 3s max no matter what
+  useEffect(() => {
+    const safety = setTimeout(() => {
+      finish();
+    }, 3000);
+    return () => clearTimeout(safety);
+  }, [finish]);
+
   useEffect(() => {
     if (stageIdx >= LAST) { finish(); return; }
     const t = setTimeout(() => setStageIdx(i => i + 1), STAGES[stageIdx].ms);
