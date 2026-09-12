@@ -1,0 +1,12 @@
+/* src/styles/fonts.css */
+/* Efficiently load Josefin Sans */
+@import url('https://fonts.googleapis.com/css2?family=Josefin+Sans:wght@400;600;700&display=swap');
+
+/* Ensure font-display swap for better performance */
+@font-face {
+  font-family: 'Josefin Sans';
+  src: local('Josefin Sans'), url('https://fonts.gstatic.com/s/josefinsans/v25/Qw3HZQNVED7rKGKxtqIqVvY.woff2') format('woff2');
+  font-weight: 400 700;
+  font-style: normal;
+  font-display: swap;
+}
