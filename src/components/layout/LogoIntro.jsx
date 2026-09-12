@@ -17,9 +17,9 @@ const STAGES = [
 
 const LAST = STAGES.length - 1;
 
-// Lens center coordinates (moved slightly top-left):
-const LENS_TOP  = "23%";
-const LENS_LEFT = "49%";
+// Lens center coordinates (moved further top-left):
+const LENS_TOP  = "20%";
+const LENS_LEFT = "47%";
 
 function prefersReducedMotion() {
   return typeof window !== "undefined" &&
