@@ -16,10 +16,8 @@ import Frames from "./pages/Frames";
 import Contact from "./pages/Contact";
 
 function App() {
-  // Runs the logo intro only once per browser session.
-  const [showIntro, setShowIntro] = useState(
-    () => sessionStorage.getItem("logoIntroShown") !== "true",
-  );
+  // Show logo intro on every page load / refresh.
+  const [showIntro, setShowIntro] = useState(true);
 
   return (
     <HelmetProvider>

@@ -1,21 +1,20 @@
 // src/components/layout/LogoIntro.jsx
-// Full-screen loading intro that uses the RJV Studio logo image
-// with a cinematic flash sequence before revealing the site.
+// Full-screen white loading intro with the RJV Studio logo + flash animation.
+// Shows on every page load/refresh.
 
 import React, { useCallback, useEffect, useRef, useState } from "react";
 import { motion, AnimatePresence } from "framer-motion";
 
 const LOGO_SRC = `${import.meta.env.BASE_URL}images/logo.png`;
 
-// Sequence stages
+// Animation timeline
 const STAGES = [
-  { key: "reveal",  ms: 900  },   // logo fades in
-  { key: "glow",    ms: 800  },   // golden glow builds up
-  { key: "flash1",  ms: 180  },   // first flash burst
-  { key: "dim",     ms: 500  },   // brief dim between flashes
-  { key: "flash2",  ms: 200  },   // second bigger flash
-  { key: "white",   ms: 700  },   // full white screen hold
-  { key: "done",    ms: 0    },
+  { key: "enter",  ms: 800  },  // logo scales in on white
+  { key: "hold",   ms: 600  },  // brief pause
+  { key: "charge", ms: 500  },  // glow builds on lens
+  { key: "flash",  ms: 250  },  // camera flash fires
+  { key: "fade",   ms: 500  },  // everything fades to white
+  { key: "done",   ms: 0    },
 ];
 
 const LAST = STAGES.length - 1;
@@ -37,18 +36,15 @@ export default function LogoIntro({ onFinish }) {
   const finish = useCallback(() => {
     if (finishedRef.current) return;
     finishedRef.current = true;
-    sessionStorage.setItem("logoIntroShown", "true");
     onFinishRef.current?.();
   }, []);
 
-  // Skip if already seen or reduced motion preference
+  // Skip only if reduced motion
   useEffect(() => {
-    if (sessionStorage.getItem("logoIntroShown") === "true" || prefersReducedMotion()) {
-      finish();
-    }
+    if (prefersReducedMotion()) finish();
   }, [finish]);
 
-  // Advance through stages
+  // Step through stages
   useEffect(() => {
     if (stageIdx >= LAST) { finish(); return; }
     const t = setTimeout(() => setStageIdx((i) => i + 1), STAGES[stageIdx].ms);
@@ -58,126 +54,138 @@ export default function LogoIntro({ onFinish }) {
   if (stageIdx >= LAST) return null;
 
   const stage = STAGES[stageIdx].key;
-  const isFlash  = stage === "flash1" || stage === "flash2";
-  const isWhite  = stage === "white";
-  const showGlow = stage === "glow" || stage === "flash1" || stage === "dim" || stage === "flash2";
+  const isFlash  = stage === "flash";
+  const showGlow = stage === "charge" || stage === "flash";
+  const isFading = stage === "fade";
 
   return (
     <motion.div
-      className="fixed inset-0 z-[100] flex items-center justify-center overflow-hidden cursor-pointer select-none"
-      style={{ background: "#0a0a0a" }}
-      animate={{ backgroundColor: isFlash || isWhite ? "#ffffff" : "#0a0a0a" }}
-      transition={{ duration: isFlash ? 0.06 : isWhite ? 0.3 : 0.4 }}
+      className="fixed inset-0 z-[100] flex flex-col items-center justify-center bg-white cursor-pointer select-none"
       onClick={finish}
       role="button"
       tabIndex={-1}
-      aria-label="Intro — tap to skip"
+      aria-label="Loading — tap to skip"
     >
-      {/* ── Logo image ── */}
+      {/* ── Logo container ── */}
       <motion.div
         className="relative flex items-center justify-center"
-        initial={{ opacity: 0, scale: 0.82 }}
+        initial={{ opacity: 0, scale: 0.78, y: 24 }}
         animate={{
-          opacity: isFlash || isWhite ? 0 : 1,
-          scale:   stage === "glow" || stage === "flash1" ? 1.04 : 1,
+          opacity: isFading ? 0 : 1,
+          scale:   isFlash ? 1.06 : isFading ? 0.94 : 1,
+          y:       isFading ? -10 : 0,
         }}
-        transition={{ duration: 0.55, ease: "easeOut" }}
+        transition={{
+          duration: isFading ? 0.45 : isFlash ? 0.12 : 0.55,
+          ease: "easeOut",
+        }}
       >
-        {/* Logo image */}
-        <motion.img
+        {/* ── Logo image ── */}
+        <img
           src={LOGO_SRC}
           alt="RJV Studios"
-          style={{ width: 260, height: 260, objectFit: "contain" }}
-          /* Invert to look good on dark background */
-          animate={{ filter: "brightness(1.15) drop-shadow(0 0 24px rgba(255,213,79,0.0))" }}
+          style={{
+            width:     240,
+            height:    240,
+            objectFit: "contain",
+            display:   "block",
+          }}
         />
 
-        {/* Golden glow overlay on lens */}
+        {/* ── Golden lens glow (charge → flash) ── */}
         <AnimatePresence>
           {showGlow && (
             <motion.span
               key="glow"
               aria-hidden="true"
-              initial={{ opacity: 0, scale: 0.5 }}
+              initial={{ opacity: 0, scale: 0.4 }}
               animate={{
-                opacity: stage === "glow" ? 0.85 : stage === "dim" ? 0.4 : 1,
-                scale:   stage === "flash1" || stage === "flash2" ? 1.6 : 1,
+                opacity: isFlash ? 1 : 0.7,
+                scale:   isFlash ? 1.8 : 0.9,
               }}
-              exit={{ opacity: 0, scale: 2, transition: { duration: 0.25 } }}
-              transition={{ duration: 0.3, ease: "easeOut" }}
+              exit={{ opacity: 0, scale: 2.5, transition: { duration: 0.3 } }}
+              transition={{ duration: isFlash ? 0.1 : 0.35, ease: "easeOut" }}
               style={{
-                position: "absolute",
-                /* Lens center is ~50% X, ~27% Y of the 260px image */
-                top:    "27%",
-                left:   "50%",
-                transform: "translate(-50%, -50%)",
-                width:  90,
-                height: 90,
+                position:     "absolute",
+                /* Lens sits at ~50% X, ~27% from top in the 240px image */
+                top:          "26%",
+                left:         "50%",
+                transform:    "translate(-50%, -50%)",
+                width:        80,
+                height:       80,
                 borderRadius: "50%",
                 background:
-                  "radial-gradient(circle, #fffde7 0%, #ffd54f 28%, rgba(255,213,79,0.35) 60%, transparent 80%)",
-                boxShadow: `
-                  0 0 40px 20px rgba(255,213,79,0.9),
-                  0 0 90px 40px rgba(255,220,100,0.55),
-                  0 0 160px 60px rgba(255,240,180,0.25)
-                `,
-                mixBlendMode: "screen",
+                  "radial-gradient(circle, #fffde7 0%, #ffd54f 30%, rgba(255,213,79,0.3) 65%, transparent 80%)",
+                boxShadow: isFlash
+                  ? `0 0 30px 18px rgba(255,210,60,0.95),
+                     0 0 70px 35px rgba(255,230,100,0.6),
+                     0 0 130px 60px rgba(255,240,180,0.3)`
+                  : `0 0 18px 10px rgba(255,210,60,0.6),
+                     0 0 40px 20px rgba(255,230,100,0.3)`,
+                mixBlendMode: "multiply",
                 pointerEvents: "none",
               }}
             />
           )}
         </AnimatePresence>
 
-        {/* Flash shutter ray burst */}
+        {/* ── Flash shockwave ring ── */}
         <AnimatePresence>
           {isFlash && (
             <motion.span
-              key="rays"
+              key="ring"
               aria-hidden="true"
-              initial={{ opacity: 0.9, scale: 0.6 }}
-              animate={{ opacity: 0, scale: 2.8 }}
-              transition={{ duration: stage === "flash2" ? 0.22 : 0.18, ease: "easeOut" }}
+              initial={{ opacity: 0.8, scale: 0.5 }}
+              animate={{ opacity: 0, scale: 3.0 }}
+              transition={{ duration: 0.35, ease: "easeOut" }}
               style={{
-                position: "absolute",
-                top:    "27%",
-                left:   "50%",
-                transform: "translate(-50%, -50%)",
-                width:  140,
-                height: 140,
+                position:     "absolute",
+                top:          "26%",
+                left:         "50%",
+                transform:    "translate(-50%, -50%)",
+                width:        80,
+                height:       80,
                 borderRadius: "50%",
-                background:
-                  "radial-gradient(circle, rgba(255,255,255,0.95) 0%, rgba(255,240,180,0.6) 40%, transparent 70%)",
+                border:       "3px solid rgba(255,210,60,0.7)",
                 pointerEvents: "none",
-                mixBlendMode: "screen",
               }}
             />
           )}
         </AnimatePresence>
       </motion.div>
 
-      {/* Full white flash veil */}
+      {/* ── Flash white veil ── */}
       <AnimatePresence>
-        {(isFlash || isWhite) && (
+        {isFlash && (
           <motion.div
             key="veil"
-            className="absolute inset-0 bg-white"
+            className="absolute inset-0 bg-white pointer-events-none"
             initial={{ opacity: 0 }}
-            animate={{ opacity: isFlash ? 0.9 : 1 }}
+            animate={{ opacity: 0.85 }}
             exit={{ opacity: 0 }}
-            transition={{ duration: 0.1 }}
+            transition={{ duration: 0.12 }}
           />
         )}
       </AnimatePresence>
 
-      {/* Skip hint */}
+      {/* ── Progress bar along the bottom ── */}
+      <motion.div
+        className="absolute bottom-0 left-0 h-0.5"
+        style={{ background: "linear-gradient(to right, #c8a951, #f0d070, #c8a951)" }}
+        initial={{ width: "0%" }}
+        animate={{ width: isFading ? "100%" : stage === "flash" ? "85%" : stage === "charge" ? "60%" : stage === "hold" ? "35%" : "10%" }}
+        transition={{ duration: 0.4, ease: "easeInOut" }}
+      />
+
+      {/* ── Skip hint ── */}
       <motion.p
-        className="absolute bottom-8 text-xs font-semibold tracking-[0.25em] uppercase"
-        style={{ color: "rgba(255,255,255,0.45)" }}
+        className="absolute bottom-4 text-xs tracking-[0.2em] uppercase font-medium"
+        style={{ color: "rgba(0,0,0,0.3)" }}
         initial={{ opacity: 0 }}
-        animate={{ opacity: isFlash || isWhite ? 0 : 0.7 }}
-        transition={{ delay: 0.6, duration: 0.4 }}
+        animate={{ opacity: isFading || isFlash ? 0 : 0.6 }}
+        transition={{ delay: 0.5, duration: 0.4 }}
       >
-        Tap anywhere to skip
+        Tap to skip
       </motion.p>
     </motion.div>
   );
