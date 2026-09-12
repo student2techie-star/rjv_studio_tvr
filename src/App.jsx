@@ -1,5 +1,5 @@
 // src/App.jsx
-import React, { useState, useEffect } from "react";
+import React, { useState } from "react";
 import { BrowserRouter as Router, Routes, Route } from "react-router-dom";
 import { HelmetProvider } from "react-helmet-async";
 import PageTransition from "./components/layout/PageTransition";
@@ -15,13 +15,10 @@ import Frames from "./pages/Frames";
 import Contact from "./pages/Contact";
 
 function App() {
-  const [showIntro, setShowIntro] = useState(true);
-
   // Runs the logo intro only once per browser session.
-  useEffect(() => {
-    const alreadyShown = sessionStorage.getItem("logoIntroShown") === "true";
-    if (alreadyShown) setShowIntro(false);
-  }, []);
+  const [showIntro, setShowIntro] = useState(
+    () => sessionStorage.getItem("logoIntroShown") !== "true",
+  );
 
   return (
     <HelmetProvider>

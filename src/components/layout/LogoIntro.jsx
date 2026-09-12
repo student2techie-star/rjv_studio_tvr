@@ -1,5 +1,5 @@
 // src/components/layout/LogoIntro.jsx
-import React, { useEffect, useRef, useState } from "react";
+import React, { useCallback, useEffect, useRef, useState } from "react";
 import { motion } from "framer-motion";
 
 const STAGES = [
@@ -25,21 +25,25 @@ function prefersReducedMotion() {
 export default function LogoIntro({ onFinish }) {
   const [stageIdx, setStageIdx] = useState(0);
   const finishedRef = useRef(false);
+  const onFinishRef = useRef(onFinish);
 
-  const finish = () => {
+  useEffect(() => {
+    onFinishRef.current = onFinish;
+  }, [onFinish]);
+
+  const finish = useCallback(() => {
     if (finishedRef.current) return;
     finishedRef.current = true;
     sessionStorage.setItem("logoIntroShown", "true");
-    onFinish?.();
-  };
+    onFinishRef.current?.();
+  }, []);
 
   // Skip entirely when already seen this session (or reduced motion).
   useEffect(() => {
     if (sessionStorage.getItem("logoIntroShown") === "true" || prefersReducedMotion()) {
       finish();
     }
-    // eslint-disable-next-line react-hooks/exhaustive-deps
-  }, []);
+  }, [finish]);
 
   // Step through the sequence.
   useEffect(() => {
@@ -49,7 +53,7 @@ export default function LogoIntro({ onFinish }) {
     }
     const t = setTimeout(() => setStageIdx((i) => i + 1), STAGES[stageIdx].ms);
     return () => clearTimeout(t);
-  }, [stageIdx]);
+  }, [stageIdx, finish]);
 
   if (stageIdx >= LAST) return null;
 

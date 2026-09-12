@@ -5,15 +5,7 @@ import { AnimatePresence, motion } from "framer-motion";
 import { Menu, X } from "lucide-react";
 import Logo from "../common/Logo";
 import Button from "../common/Button";
-
-export const NAV = [
-  { to: "/", label: "Home" },
-  { to: "/about", label: "About" },
-  { to: "/services", label: "Services" },
-  { to: "/portfolio", label: "Portfolio" },
-  { to: "/frames", label: "Frames" },
-  { to: "/contact", label: "Contact" },
-];
+import { NAV } from "../../data/nav";
 
 export default function MobileMenu() {
   const [open, setOpen] = useState(false);

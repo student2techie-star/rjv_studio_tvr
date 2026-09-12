@@ -16,16 +16,11 @@ export default function ImageUploader() {
   const [status, setStatus] = useState("idle"); // idle | ready | uploading | success | error
   const [dragging, setDragging] = useState(false);
   const inputRef = useRef(null);
+  const urlRef = useRef(null);
 
-  useEffect(() => {
-    if (!file) {
-      setPreviewUrl("");
-      return;
-    }
-    const url = URL.createObjectURL(file);
-    setPreviewUrl(url);
-    return () => URL.revokeObjectURL(url);
-  }, [file]);
+  useEffect(() => () => {
+    if (urlRef.current) URL.revokeObjectURL(urlRef.current);
+  }, []);
 
   const accept = (candidate) => {
     const check = validateImage(candidate);
@@ -34,9 +29,19 @@ export default function ImageUploader() {
       setStatus("idle");
       return;
     }
+    if (urlRef.current) URL.revokeObjectURL(urlRef.current);
+    urlRef.current = URL.createObjectURL(check.file);
+    setPreviewUrl(urlRef.current);
     setError("");
     setStatus("ready");
     setFile(check.file);
+  };
+
+  const removeFile = () => {
+    if (urlRef.current) URL.revokeObjectURL(urlRef.current);
+    urlRef.current = null;
+    setPreviewUrl("");
+    setFile(null);
   };
 
   const onDrop = useCallback((e) => {
@@ -128,7 +133,7 @@ export default function ImageUploader() {
       <AnimatePresence>
         {file && previewUrl && (
           <motion.div layout className="space-y-5">
-            <UploadPreview file={file} previewUrl={previewUrl} onRemove={() => setFile(null)} />
+            <UploadPreview file={file} previewUrl={previewUrl} onRemove={removeFile} />
 
             <UploadStatus status={status} error={error} />
 

@@ -3,7 +3,8 @@ import React from "react";
 import { NavLink, Link } from "react-router-dom";
 import Logo from "../common/Logo";
 import Button from "../common/Button";
-import MobileMenu, { NAV } from "./MobileMenu";
+import MobileMenu from "./MobileMenu";
+import { NAV } from "../../data/nav";
 
 export default function Header() {
   return (

@@ -6,7 +6,7 @@ import Logo from "../common/Logo";
 import SocialIcon from "../common/SocialIcons";
 import Button from "../common/Button";
 import { social } from "../../data/social";
-import { NAV } from "./MobileMenu";
+import { NAV } from "../../data/nav";
 
 export default function Footer() {
   return (

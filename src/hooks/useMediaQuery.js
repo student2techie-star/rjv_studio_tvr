@@ -12,11 +12,8 @@ export function useMediaQuery(query) {
     const mq = window.matchMedia(query);
     const onChange = (e) => setMatches(e.matches);
     mq.addEventListener("change", onChange);
-    setMatches(mq.matches);
     return () => mq.removeEventListener("change", onChange);
   }, [query]);
 
   return matches;
 }
-
-export const isMobile = () => useMediaQuery("(max-width: 767px)");

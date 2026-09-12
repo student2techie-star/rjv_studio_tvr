@@ -1,7 +1,6 @@
 // src/components/home/FeaturedPortfolio.jsx
 import React from "react";
 import { motion } from "framer-motion";
-import { Link } from "react-router-dom";
 import Container from "../common/Container";
 import SectionHeading from "../common/SectionHeading";
 import Button from "../common/Button";
