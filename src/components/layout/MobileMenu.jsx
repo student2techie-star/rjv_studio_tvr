@@ -1,7 +1,8 @@
 // src/components/layout/MobileMenu.jsx
 import React, { useEffect, useState } from "react";
+import { createPortal } from "react-dom";
 import { NavLink } from "react-router-dom";
-import { AnimatePresence, motion } from "framer-motion";
+import { motion } from "framer-motion";
 import { Menu, X } from "lucide-react";
 import Logo from "../common/Logo";
 import Button from "../common/Button";
@@ -31,15 +32,14 @@ export default function MobileMenu() {
         {open ? <X size={26} /> : <Menu size={26} />}
       </button>
 
-      <AnimatePresence>
-        {open && (
-          <motion.div
-            className="fixed inset-0 z-[60] md:hidden flex flex-col items-center justify-center gap-6 bg-brand-50/95 backdrop-blur-2xl"
-            initial={{ opacity: 0 }}
-            animate={{ opacity: 1 }}
-            exit={{ opacity: 0 }}
-            transition={{ duration: 0.25 }}
-          >
+      {open &&
+          createPortal(
+            <motion.div
+              className="fixed inset-0 z-[60] md:hidden flex flex-col items-center justify-center gap-6 bg-brand-50/95 backdrop-blur-2xl overflow-y-auto py-24"
+              initial={{ opacity: 0 }}
+              animate={{ opacity: 1 }}
+              transition={{ duration: 0.25 }}
+            >
             <button
               className="absolute top-16 right-5 p-2 rounded-lg text-brand-800 hover:bg-brand-100"
               aria-label="Close menu"
@@ -85,9 +85,9 @@ export default function MobileMenu() {
                 </Button>
               </motion.div>
             </nav>
-          </motion.div>
+          </motion.div>,
+          document.body,
         )}
-      </AnimatePresence>
     </>
   );
 }

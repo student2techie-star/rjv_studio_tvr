@@ -3,6 +3,7 @@ import React, { useState } from "react";
 import { BrowserRouter as Router, Routes, Route } from "react-router-dom";
 import { HelmetProvider } from "react-helmet-async";
 import PageTransition from "./components/layout/PageTransition";
+import ScrollToTop from "./components/layout/ScrollToTop";
 import Header from "./components/layout/Header";
 import Footer from "./components/layout/Footer";
 import LogoIntro from "./components/layout/LogoIntro";
@@ -23,6 +24,7 @@ function App() {
   return (
     <HelmetProvider>
       <Router basename="/rjv_studio_tvr">
+        <ScrollToTop />
         {showIntro && <LogoIntro onFinish={() => setShowIntro(false)} />}
         <Header />
         <PageTransition>

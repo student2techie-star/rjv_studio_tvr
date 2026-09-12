@@ -33,7 +33,7 @@ export default function FeaturedPortfolio() {
 
         <motion.div
           {...reveal}
-          className="grid auto-rows-[160px] sm:auto-rows-[200px] grid-cols-2 lg:grid-cols-4 gap-3 sm:gap-4"
+          className="grid-flow-dense grid auto-rows-[160px] sm:auto-rows-[200px] grid-cols-2 lg:grid-cols-4 gap-3 sm:gap-4"
         >
           {items.map((item, i) => (
             <motion.div
@@ -47,6 +47,7 @@ export default function FeaturedPortfolio() {
                 src={item.image}
                 alt={item.alt}
                 loading="lazy"
+                decoding="async"
                 className="h-full w-full object-cover"
                 variants={{ rest: { scale: 1 }, hover: { scale: 1.07 } }}
                 transition={{ duration: 0.7, ease: "easeOut" }}

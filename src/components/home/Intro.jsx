@@ -22,10 +22,10 @@ export default function Intro() {
           {/* Photo collage */}
           <motion.div {...reveal} className="relative">
             <div className="aspect-[4/5] overflow-hidden rounded-3xl shadow-xl shadow-brand-900/10">
-              <img src={weddingImg} alt="RJV Studios wedding photography" className="h-full w-full object-cover" loading="lazy" width={640} height={800} />
+              <img src={weddingImg} alt="RJV Studios wedding photography" className="h-full w-full object-cover" loading="lazy" decoding="async" width={640} height={800} />
             </div>
             <div className="absolute -bottom-10 -right-4 sm:-right-8 w-40 sm:w-52 aspect-[3/4] overflow-hidden rounded-2xl border-4 border-white shadow-2xl">
-              <img src={portraitImg} alt="Editorial portrait by RJV Studios" className="h-full w-full object-cover" loading="lazy" width={320} height={427} />
+              <img src={portraitImg} alt="Editorial portrait by RJV Studios" className="h-full w-full object-cover" loading="lazy" decoding="async" width={320} height={427} />
             </div>
           </motion.div>
 

@@ -20,6 +20,7 @@ export default function ServiceCard({ service, revealProps }) {
           alt={service.title}
           className="h-full w-full object-cover"
           loading="lazy"
+          decoding="async"
           width={640}
           height={480}
           variants={{ rest: { scale: 1 }, hover: { scale: 1.06 } }}

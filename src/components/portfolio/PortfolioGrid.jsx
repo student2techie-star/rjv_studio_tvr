@@ -1,7 +1,7 @@
 // src/components/portfolio/PortfolioGrid.jsx
 import React, { useMemo, useState } from "react";
 import { motion } from "framer-motion";
-import { portfolio } from "../../data/portfolio";
+import { portfolio, categoryKey } from "../../data/portfolio";
 import Lightbox from "./Lightbox";
 
 // Editorial composition — mix of large, wide, tall and standard tiles.
@@ -19,23 +19,24 @@ function spansFor(i) {
 }
 
 export default function PortfolioGrid({ category = "All" }) {
-  const items = useMemo(
-    () =>
-      category === "All"
-        ? portfolio
-        : portfolio.filter(
-            (item) => item.category === category.toLowerCase()
-          ),
-    [category]
-  );
+  const items = useMemo(() => {
+    if (category === "All") return portfolio;
+    const key = categoryKey(category);
+    return portfolio.filter((item) => item.category === key);
+  }, [category]);
 
   const [openIndex, setOpenIndex] = useState(null);
+  const filtered = category !== "All";
 
   return (
     <>
       <motion.div
         layout
-        className="grid auto-rows-[150px] sm:auto-rows-[180px] grid-cols-2 lg:grid-cols-4 gap-3 sm:gap-4"
+        className={
+          filtered
+            ? "grid-flow-dense grid auto-rows-[150px] sm:auto-rows-[190px] grid-cols-2 lg:grid-cols-3 gap-3 sm:gap-4"
+            : "grid-flow-dense grid auto-rows-[150px] sm:auto-rows-[180px] grid-cols-2 lg:grid-cols-4 gap-3 sm:gap-4"
+        }
       >
         {items.map((item, i) => (
           <motion.button
@@ -45,11 +46,11 @@ export default function PortfolioGrid({ category = "All" }) {
             initial={{ opacity: 0, scale: 0.96, y: 18 }}
             whileInView={{ opacity: 1, scale: 1, y: 0 }}
             exit={{ opacity: 0, scale: 0.96 }}
-            viewport={{ once: true, amount: 0.15 }}
-            transition={{ duration: 0.5, delay: (i % 4) * 0.06 }}
+            viewport={{ once: true, amount: 0.08 }}
+            transition={{ duration: 0.5, delay: (i % 4) * 0.05 }}
             whileHover="hover"
             animate="rest"
-            className={`group relative overflow-hidden rounded-2xl ${spansFor(i)}`}
+            className={`group relative overflow-hidden rounded-2xl ${filtered ? "" : spansFor(i)}`}
             onClick={() => setOpenIndex(i)}
             aria-label={`Open ${item.title}`}
           >
@@ -57,6 +58,7 @@ export default function PortfolioGrid({ category = "All" }) {
               src={item.image}
               alt={item.alt}
               loading="lazy"
+              decoding="async"
               className="h-full w-full object-cover"
               variants={{ rest: { scale: 1 }, hover: { scale: 1.06 } }}
               transition={{ duration: 0.7, ease: "easeOut" }}

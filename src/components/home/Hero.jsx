@@ -84,6 +84,9 @@ export default function Hero() {
                 className="absolute inset-0 h-full w-full object-cover"
                 width={720}
                 height={900}
+                loading="eager"
+                decoding="async"
+                fetchPriority="high"
                 initial={{ scale: 1.08 }}
                 animate={{ scale: 1 }}
                 transition={{ duration: 1.2, ease: "easeOut" }}
@@ -108,7 +111,7 @@ export default function Hero() {
               animate={{ opacity: 1, y: 0 }}
               transition={{ duration: 0.6, delay: 0.85 }}
             >
-              <img src={weddingImg} alt="" className="h-full w-full object-cover" loading="eager" width={112} height={112} />
+              <img src={weddingImg} alt="" className="h-full w-full object-cover" loading="lazy" decoding="async" width={112} height={112} />
             </motion.div>
           </motion.div>
         </div>

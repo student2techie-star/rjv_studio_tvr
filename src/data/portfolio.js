@@ -108,3 +108,15 @@ export const portfolioCategories = [
   "Baby Shower",
   "Events",
 ];
+
+// Map a filter-tab label to the category key stored on each portfolio item.
+export const categoryKey = (label) =>
+  ({
+    All: "all",
+    Wedding: "wedding",
+    Ceremony: "ceremony",
+    Portrait: "portrait",
+    Kids: "kids",
+    "Baby Shower": "baby-shower",
+    Events: "events",
+  })[label] || label.toLowerCase();
