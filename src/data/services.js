@@ -1,5 +1,5 @@
 // src/data/services.js
-import weddingImg from "../assets/images/weddings/anniversary-01.webp";
+import weddingImg from "../assets/images/weddings/anniversary-01.jpg";
 import engagementImg from "../assets/images/portraits/shoot-02.webp";
 import babyImg from "../assets/images/kids/babyshoot-01.webp";
 import ceremonyImg from "../assets/images/ceremonies/shivarathiri-01.webp";

@@ -3,7 +3,7 @@ import React from "react";
 import { motion } from "framer-motion";
 import Container from "../common/Container";
 import { useScrollReveal } from "../../hooks/useScrollReveal";
-import weddingImg from "../../assets/images/weddings/anniversary-02.webp";
+import weddingImg from "../../assets/images/weddings/anniversary-02.jpg";
 import portraitImg from "../../assets/images/portraits/shoot-01.webp";
 
 const STATS = [

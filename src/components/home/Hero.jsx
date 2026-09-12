@@ -5,7 +5,7 @@ import { ArrowRight } from "lucide-react";
 import Container from "../common/Container";
 import Button from "../common/Button";
 import heroImg from "../../assets/images/hero.png";
-import weddingImg from "../../assets/images/weddings/anniversary-01.webp";
+import weddingImg from "../../assets/images/weddings/anniversary-01.jpg";
 
 export default function Hero() {
   return (
