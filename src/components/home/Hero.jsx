@@ -1,7 +1,6 @@
-// src/components/home/Hero.jsx
 import React from "react";
 import { motion } from "framer-motion";
-import { ArrowRight } from "lucide-react";
+import { ArrowRight, Sparkles, Star, ShieldCheck } from "lucide-react";
 import Container from "../common/Container";
 import Button from "../common/Button";
 import heroImg from "../../assets/images/hero.png";
@@ -21,12 +20,12 @@ export default function Hero() {
         ))}
       </svg>
 
-      <Container className="relative pt-10 pb-24 lg:py-20">
-        <div className="grid items-center gap-12 lg:grid-cols-2 lg:gap-16">
+      <Container className="relative pt-6 pb-12 sm:pt-10 sm:pb-16 lg:py-16">
+        <div className="grid items-center gap-10 lg:grid-cols-2 lg:gap-14">
           {/* Copy */}
           <div className="text-center lg:text-left">
             <motion.p
-              className="eyebrow mb-5 inline-flex items-center gap-2"
+              className="eyebrow mb-4 inline-flex items-center gap-2"
               initial={{ opacity: 0, y: 16 }}
               animate={{ opacity: 1, y: 0 }}
               transition={{ duration: 0.6 }}
@@ -46,7 +45,7 @@ export default function Hero() {
             </motion.h1>
 
             <motion.p
-              className="text-body mt-6 max-w-xl mx-auto lg:mx-0"
+              className="text-body mt-5 max-w-xl mx-auto lg:mx-0"
               initial={{ opacity: 0, y: 24 }}
               animate={{ opacity: 1, y: 0 }}
               transition={{ duration: 0.7, delay: 0.24 }}
@@ -56,7 +55,7 @@ export default function Hero() {
             </motion.p>
 
             <motion.div
-              className="mt-9 flex flex-wrap items-center justify-center lg:justify-start gap-4"
+              className="mt-8 flex flex-wrap items-center justify-center lg:justify-start gap-4"
               initial={{ opacity: 0, y: 24 }}
               animate={{ opacity: 1, y: 0 }}
               transition={{ duration: 0.7, delay: 0.36 }}
@@ -67,6 +66,28 @@ export default function Hero() {
               <Button to="/portfolio" variant="outline">
                 View Portfolio
               </Button>
+            </motion.div>
+
+            {/* Trust feature chips replacing empty space */}
+            <motion.div
+              className="mt-8 pt-6 border-t border-brand-200/60 flex flex-wrap items-center justify-center lg:justify-start gap-x-6 gap-y-3 text-xs sm:text-sm font-medium text-brand-800"
+              initial={{ opacity: 0, y: 16 }}
+              animate={{ opacity: 1, y: 0 }}
+              transition={{ duration: 0.7, delay: 0.48 }}
+            >
+              <div className="flex items-center gap-2">
+                <span className="flex h-2 w-2 rounded-full bg-emerald-500 ring-4 ring-emerald-100" />
+                <span>Thiruvarur &amp; Tamil Nadu</span>
+              </div>
+              <div className="flex items-center gap-1.5">
+                <Star size={15} className="fill-amber-400 text-amber-400" />
+                <span className="font-bold text-brand-900">4.9/5</span>
+                <span className="text-brand-600">Rating</span>
+              </div>
+              <div className="flex items-center gap-1.5">
+                <ShieldCheck size={16} className="text-brand-600" />
+                <span>3D Custom Frames</span>
+              </div>
             </motion.div>
           </div>
 
