@@ -113,22 +113,37 @@ export default function Frames() {
                 </div>
               </div>
 
-              {/* Right Column: Video player card */}
-              <div className="order-1 lg:order-2 max-w-sm mx-auto lg:max-w-none w-full">
-                <div className="rounded-3xl overflow-hidden shadow-2xl border-3d bg-white">
-                  <video
-                    src={`${import.meta.env.BASE_URL}videos/frame_video.mp4`}
-                    controls
-                    autoPlay
-                    loop
-                    muted
-                    playsInline
-                    preload="auto"
-                    className="w-full h-auto max-h-[520px] rounded-3xl block"
-                    aria-label="RJV Studio frame showcase video"
-                  >
-                    Your browser does not support the video tag.
-                  </video>
+              {/* Right Column: Video player inside iPhone Mockup */}
+              <div className="order-1 lg:order-2 flex justify-center w-full">
+                <div className="relative mx-auto w-[270px] sm:w-[300px] aspect-[9/18.5] bg-slate-950 rounded-[46px] p-2.5 shadow-[0_25px_60px_-15px_rgba(15,23,42,0.4),0_0_0_1px_rgba(255,255,255,0.1)] border-[4px] border-slate-800 ring-1 ring-slate-950 transition-transform duration-300 hover:scale-[1.01]">
+                  {/* Speaker Bar */}
+                  <div className="absolute top-2 left-1/2 -translate-x-1/2 w-12 h-1 bg-slate-800 rounded-full z-30 pointer-events-none" />
+
+                  {/* Dynamic Island Notch */}
+                  <div className="absolute top-4 left-1/2 -translate-x-1/2 w-22 h-4.5 bg-black rounded-full z-30 flex items-center justify-between px-2.5 pointer-events-none shadow-sm">
+                    <div className="w-2.5 h-2.5 rounded-full bg-slate-900 border border-slate-800" />
+                    <div className="w-2 h-2 rounded-full bg-slate-950 ring-1 ring-blue-900/60" />
+                  </div>
+
+                  {/* Screen Content */}
+                  <div className="relative w-full h-full rounded-[36px] overflow-hidden bg-black flex items-center justify-center">
+                    <video
+                      src={`${import.meta.env.BASE_URL}videos/frame_video.mp4`}
+                      controls
+                      autoPlay
+                      loop
+                      muted
+                      playsInline
+                      preload="auto"
+                      className="w-full h-full object-cover"
+                      aria-label="RJV Studio frame showcase video"
+                    >
+                      Your browser does not support the video tag.
+                    </video>
+                  </div>
+
+                  {/* Home Indicator */}
+                  <div className="absolute bottom-4 left-1/2 -translate-x-1/2 w-28 h-1 bg-white/40 backdrop-blur-sm rounded-full z-30 pointer-events-none" />
                 </div>
               </div>
             </div>
