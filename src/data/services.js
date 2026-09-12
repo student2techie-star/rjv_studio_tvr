@@ -1,9 +1,9 @@
 // src/data/services.js
 import weddingImg from "../assets/images/weddings/anniversary-01.jpg";
 import engagementImg from "../assets/images/portraits/shoot-02.webp";
-import babyImg from "../assets/images/kids/babyshoot-01.webp";
+import babyImg from "../assets/images/kids/maternity-01.jpg";
 import ceremonyImg from "../assets/images/ceremonies/shivarathiri-01.webp";
-import portraitImg from "../assets/images/portraits/shoot-01.webp";
+import portraitImg from "../assets/images/portraits/bridal-red.jpg";
 import eventImg from "../assets/images/events/event-01.webp";
 
 export const services = [
@@ -11,54 +11,86 @@ export const services = [
     id: "wedding",
     number: "01",
     title: "Wedding Photography",
-    description:
-      "Editorial storytelling for your big day — candid moments, rituals and emotions preserved with elegance.",
+    tagline: "Complete wedding storytelling with candid & traditional coverage.",
+    events: [
+      "Engagement Ceremony (Nitchayathartham)",
+      "Pre-Wedding Couple Shoot",
+      "Traditional Muhurtham Rituals",
+      "Sangeet & Haldi Celebrations",
+      "Grand Reception & Stage Coverage",
+    ],
     image: weddingImg,
-    features: ["Full-day coverage", "2 photographers", "Candid + traditional"],
+    features: ["Full-day coverage", "2 Photographers", "High-res Digital & Album"],
   },
   {
     id: "engagement",
     number: "02",
     title: "Engagement & Pre-Wedding",
-    description:
-      "Couple portraits and pre-wedding sessions that capture your love story in beautiful light.",
+    tagline: "Romantic couple sessions captured in gorgeous natural light.",
+    events: [
+      "Ring Exchange & Rituals",
+      "Outdoor Scenic Couple Session",
+      "Save-The-Date Reels & Teaser",
+      "Wardrobe & Concept Guidance",
+    ],
     image: engagementImg,
-    features: ["Location scouting", "Couple portraits", "Style guidance"],
+    features: ["Location scouting", "Cinematic Teaser", "Style Guidance"],
   },
   {
     id: "baby",
     number: "03",
-    title: "Baby & Kids",
-    description:
-      "Gentle, natural sessions for newborns and kids — tiny smiles, first milestones, forever keepsakes.",
+    title: "Baby, Kids & Maternity",
+    tagline: "Gentle, creative sessions for mothers, newborns and growing kids.",
+    events: [
+      "Maternity & Pregnancy Glow Shoot",
+      "Newborn Baby Session (0–3 Months)",
+      "Ear Piercing (Kadhukuthu Vizha)",
+      "1st Birthday & Cake Smash",
+      "Kids Milestone Photography",
+    ],
     image: babyImg,
-    features: ["Newborn safe set-ups", "Family moments", "Play-based"],
+    features: ["Newborn Safe Setup", "Theme Props Included", "Family Portraits"],
   },
   {
     id: "ceremony",
     number: "04",
-    title: "Ceremonies & Festivals",
-    description:
-      "From Shivarathiri to family functions — vibrant coverage of traditions and celebrations.",
+    title: "Traditional Ceremonies",
+    tagline: "Vibrant coverage of sacred Tamil rituals and temple festivals.",
+    events: [
+      "Puberty Ceremony (Manjal Neerattu Vizha)",
+      "Housewarming Rituals (Grihapravesam)",
+      "Temple Festivals & Shivarathiri",
+      "Family Poojas & Annaprasana",
+    ],
     image: ceremonyImg,
-    features: ["Temple & home events", "Ritual coverage", "Album-ready output"],
+    features: ["Temple & Home Events", "Ritual Highlights", "Premium Photo Book"],
   },
   {
     id: "portrait",
     number: "05",
     title: "Portrait Sessions",
-    description:
-      "Editorial and studio portraits crafted around your personality — sharp, contemporary, timeless.",
+    tagline: "Contemporary studio and outdoor portraits crafted with editorial polish.",
+    events: [
+      "Bridal & Groom Solo Portfolio",
+      "Studio Lighting & Backdrops",
+      "Outdoor Conceptual Session",
+      "Family Group Portraiture",
+    ],
     image: portraitImg,
-    features: ["Studio lighting", "Wardrobe guidance", "Retouched finals"],
+    features: ["Studio Lighting", "Retouched Finals", "High Resolution"],
   },
   {
     id: "events",
     number: "06",
     title: "Events & Functions",
-    description:
-      "Live shows, gatherings and corporate functions covered with energy and discretion.",
+    tagline: "Energetic, seamless coverage for private parties and stage events.",
+    events: [
+      "Birthday Parties & Anniversaries",
+      "Stage Performances & Culturals",
+      "Corporate Gatherings & Launch",
+      "Live Shows & Music Events",
+    ],
     image: eventImg,
-    features: ["Multi-hour coverage", "Fast turnaround", "Digital delivery"],
+    features: ["Multi-hour Coverage", "Fast Turnaround", "Digital Gallery"],
   },
 ];
