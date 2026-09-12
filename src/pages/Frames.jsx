@@ -26,8 +26,8 @@ const HOW_IT_WORKS = [
   {
     icon: Clock,
     step: "03",
-    title: "Receive it on WhatsApp",
-    body: "Your beautifully framed photo is sent back to you directly — quick, private, and hassle-free.",
+    title: "Fast WhatsApp Delivery",
+    body: "Receive your framed preview and options directly on WhatsApp within hours.",
   },
 ];
 
@@ -42,10 +42,10 @@ export default function Frames() {
         path="/frames"
       />
 
-      {/* Hero */}
-      <section className="relative overflow-hidden bg-brand-900 pt-20 pb-14 lg:pt-28 lg:pb-20 text-center">
+      {/* Hero banner */}
+      <section className="relative overflow-hidden bg-gradient-to-b from-brand-900 via-brand-950 to-brand-900 text-white pt-20 pb-16 lg:pt-28 lg:pb-20 text-center">
         <div className="absolute inset-0 opacity-10 pointer-events-none">
-          <svg className="absolute -top-20 -right-20 w-[400px] h-[400px] text-brand-300" viewBox="0 0 200 200" aria-hidden="true">
+          <svg className="w-full h-full" viewBox="0 0 200 200" fill="none">
             {[0, 60, 120, 180, 240, 300].map((a) => (
               <ellipse key={a} cx="100" cy="100" rx="120" ry="34" fill="currentColor" transform={`rotate(${a} 100 100)`} />
             ))}
@@ -62,36 +62,80 @@ export default function Frames() {
         </Container>
       </section>
 
-      {/* Frame Video Showcase */}
-      <section className="py-12 bg-white border-b border-brand-100">
-        <Container className="max-w-3xl">
-          <motion.div {...useScrollReveal({ delay: 0.05 })}>
-            <p className="eyebrow mb-3 text-center">See how it works</p>
-            <h2 className="text-section text-center mb-8">Watch our frame showcase</h2>
-            <div className="rounded-3xl overflow-hidden shadow-xl border border-brand-100 aspect-video bg-black">
-              <video
-                src={`${import.meta.env.BASE_URL}videos/frame_video.mp4`}
-                controls
-                autoPlay
-                loop
-                muted
-                playsInline
-                className="w-full h-full object-cover"
-                aria-label="RJV Studio frame video"
-              >
-                Your browser does not support the video tag.
-              </video>
+      {/* Upload Section with Video Above */}
+      <section className="py-12 lg:py-16 bg-brand-50">
+        <Container className="max-w-5xl">
+
+          {/* Reference Video with Desktop Side-by-Side Trust Sentences */}
+          <motion.div {...useScrollReveal({ delay: 0.05 })} className="mb-12">
+            <p className="eyebrow mb-2 text-center lg:text-left">Reference Video</p>
+            <h2 className="text-2xl sm:text-3xl font-bold text-brand-900 text-center lg:text-left mb-6 sm:mb-8">
+              See how our frame works for you
+            </h2>
+
+            <div className="grid gap-8 items-center lg:grid-cols-[1.1fr_0.9fr]">
+              {/* Left Column: Trust-building sentences (Desktop/Laptop layout) */}
+              <div className="space-y-4 order-2 lg:order-1">
+                <div className="card-soft p-5 border-3d bg-white flex items-start gap-4">
+                  <div className="h-11 w-11 shrink-0 rounded-2xl bg-brand-100 text-brand-700 flex items-center justify-center font-bold">
+                    1000+
+                  </div>
+                  <div>
+                    <h3 className="font-semibold text-brand-900 text-base">1,000+ Frames Hand-Crafted</h3>
+                    <p className="text-xs sm:text-sm text-brand-600 leading-relaxed mt-1">
+                      Trusted by hundreds of families across Thiruvarur &amp; Tamil Nadu for premium photo framing with vibrant print quality.
+                    </p>
+                  </div>
+                </div>
+
+                <div className="card-soft p-5 border-3d bg-white flex items-start gap-4">
+                  <div className="h-11 w-11 shrink-0 rounded-2xl bg-brand-100 text-brand-700 flex items-center justify-center">
+                    <Sparkles size={20} />
+                  </div>
+                  <div>
+                    <h3 className="font-semibold text-brand-900 text-base">Expert Style Matching</h3>
+                    <p className="text-xs sm:text-sm text-brand-600 leading-relaxed mt-1">
+                      Our framers personally evaluate your uploaded photo's mood and color palette to recommend the perfect border &amp; finish.
+                    </p>
+                  </div>
+                </div>
+
+                <div className="card-soft p-5 border-3d bg-white flex items-start gap-4">
+                  <div className="h-11 w-11 shrink-0 rounded-2xl bg-green-100 text-green-700 flex items-center justify-center">
+                    <ShieldCheck size={20} />
+                  </div>
+                  <div>
+                    <h3 className="font-semibold text-brand-900 text-base">100% Private &amp; Secure</h3>
+                    <p className="text-xs sm:text-sm text-brand-600 leading-relaxed mt-1">
+                      Your photo goes straight to our studio team for framing — no public uploads, complete data privacy guaranteed.
+                    </p>
+                  </div>
+                </div>
+              </div>
+
+              {/* Right Column: Video player card */}
+              <div className="order-1 lg:order-2 max-w-sm mx-auto lg:max-w-none w-full">
+                <div className="rounded-3xl overflow-hidden shadow-2xl border-3d bg-white">
+                  <video
+                    src={`${import.meta.env.BASE_URL}videos/frame_video.mp4`}
+                    controls
+                    autoPlay
+                    loop
+                    muted
+                    playsInline
+                    preload="auto"
+                    className="w-full h-auto max-h-[520px] rounded-3xl block"
+                    aria-label="RJV Studio frame showcase video"
+                  >
+                    Your browser does not support the video tag.
+                  </video>
+                </div>
+              </div>
             </div>
           </motion.div>
-        </Container>
-      </section>
-
-      {/* Upload Section */}
-      <section className="py-14 lg:py-20 bg-brand-50">
-        <Container className="max-w-3xl">
 
           {/* Uploader */}
-          <motion.div {...useScrollReveal({ delay: 0.05 })}>
+          <motion.div {...useScrollReveal({ delay: 0.08 })}>
             <ImageUploader />
           </motion.div>
 
