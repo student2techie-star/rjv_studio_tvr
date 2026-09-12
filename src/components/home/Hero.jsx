@@ -95,7 +95,7 @@ export default function Hero() {
 
             {/* Floating stat card */}
             <motion.div
-              className="absolute -bottom-6 -left-4 sm:-left-8 rounded-2xl bg-white/90 backdrop-blur-md px-5 py-4 shadow-xl shadow-brand-900/10 border border-brand-200/70"
+              className="absolute -bottom-6 -left-4 sm:-left-8 z-10 rounded-2xl bg-white/95 backdrop-blur-md px-5 py-4 shadow-xl shadow-brand-900/10 border border-brand-200/70"
               initial={{ opacity: 0, y: 20 }}
               animate={{ opacity: 1, y: 0 }}
               transition={{ duration: 0.6, delay: 0.7 }}
