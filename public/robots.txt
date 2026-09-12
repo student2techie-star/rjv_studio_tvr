@@ -3,4 +3,4 @@ Allow: /
 Disallow: /frames
 
 # Update the Sitemap line below to your live domain once deployed.
-Sitemap: https://rjvstudios.github.io/rjv_studio_tvr/sitemap.xml
+Sitemap: https://student2techie-star.github.io/rjv_studio_tvr/sitemap.xml

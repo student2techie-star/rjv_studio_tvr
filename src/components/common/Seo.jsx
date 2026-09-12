@@ -4,7 +4,7 @@ import { Helmet } from "react-helmet-async";
 
 const SITE_URL =
   (import.meta.env.VITE_SITE_URL || "").replace(/\/$/, "") ||
-  "https://rjvstudios.github.io/rjv_studio_tvr";
+  "https://student2techie-star.github.io/rjv_studio_tvr";
 
 export default function Seo({ title, description, image, path = "/" }) {
   const fullTitle = title ? `${title} — RJV Studios` : "RJV Studios — Premium Photography";
