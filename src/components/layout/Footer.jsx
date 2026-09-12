@@ -1,6 +1,6 @@
 // src/components/layout/Footer.jsx
 import React from "react";
-import { Instagram, Youtube, MessageCircle } from "lucide-react";
+import { Camera, CirclePlay, MessageCircle } from "lucide-react";
 
 export default function Footer() {
   return (
