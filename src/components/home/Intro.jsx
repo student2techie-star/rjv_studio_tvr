@@ -24,7 +24,7 @@ export default function Intro() {
             <div className="aspect-[4/5] overflow-hidden rounded-3xl shadow-xl shadow-brand-900/10">
               <img src={weddingImg} alt="RJV Studios wedding photography" className="h-full w-full object-cover" loading="lazy" decoding="async" width={640} height={800} />
             </div>
-            <div className="absolute -bottom-10 -right-4 sm:-right-8 w-40 sm:w-52 aspect-[3/4] overflow-hidden rounded-2xl border-4 border-white shadow-2xl">
+            <div className="absolute -bottom-6 right-2 sm:-bottom-10 sm:-right-8 w-36 sm:w-52 aspect-[3/4] overflow-hidden rounded-2xl border-4 border-white shadow-2xl">
               <img src={portraitImg} alt="Editorial portrait by RJV Studios" className="h-full w-full object-cover" loading="lazy" decoding="async" width={320} height={427} />
             </div>
           </motion.div>
@@ -42,11 +42,11 @@ export default function Intro() {
               story you want to keep. No rushed poses, only moments that matter.
             </p>
 
-            <div className="grid grid-cols-3 gap-6 mt-10">
+            <div className="grid grid-cols-3 gap-2 sm:gap-6 mt-10">
               {STATS.map((s) => (
                 <div key={s.label} className="text-center lg:text-left">
-                  <p className="text-3xl md:text-4xl font-bold text-brand-900">{s.value}</p>
-                  <p className="text-xs uppercase tracking-wider text-brand-600 mt-1.5">{s.label}</p>
+                  <p className="text-2xl sm:text-3xl md:text-4xl font-bold text-brand-900">{s.value}</p>
+                  <p className="text-[10px] sm:text-xs uppercase tracking-wider text-brand-600 mt-1 sm:mt-1.5">{s.label}</p>
                 </div>
               ))}
             </div>

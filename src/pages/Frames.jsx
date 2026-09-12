@@ -76,36 +76,36 @@ export default function Frames() {
             <div className="grid gap-8 items-center lg:grid-cols-[1.1fr_0.9fr]">
               {/* Left Column: Trust-building sentences (Desktop/Laptop layout) */}
               <div className="space-y-4 order-2 lg:order-1">
-                <div className="card-soft p-5 border-3d bg-white flex items-start gap-4">
-                  <div className="h-11 w-11 shrink-0 rounded-2xl bg-brand-100 text-brand-700 flex items-center justify-center font-bold">
+                <div className="card-soft p-4 sm:p-5 border-3d bg-white flex items-start gap-3.5 sm:gap-4">
+                  <div className="h-10 px-2.5 shrink-0 rounded-xl bg-brand-100 text-brand-800 flex items-center justify-center font-bold text-xs tracking-tight shadow-inner mt-0.5">
                     1000+
                   </div>
-                  <div>
-                    <h3 className="font-semibold text-brand-900 text-base">1,000+ Frames Hand-Crafted</h3>
+                  <div className="min-w-0 flex-1">
+                    <h3 className="font-semibold text-brand-900 text-sm sm:text-base leading-tight">1,000+ Frames Hand-Crafted</h3>
                     <p className="text-xs sm:text-sm text-brand-600 leading-relaxed mt-1">
                       Trusted by hundreds of families across Thiruvarur &amp; Tamil Nadu for premium photo framing with vibrant print quality.
                     </p>
                   </div>
                 </div>
 
-                <div className="card-soft p-5 border-3d bg-white flex items-start gap-4">
-                  <div className="h-11 w-11 shrink-0 rounded-2xl bg-brand-100 text-brand-700 flex items-center justify-center">
-                    <Sparkles size={20} />
+                <div className="card-soft p-4 sm:p-5 border-3d bg-white flex items-start gap-3.5 sm:gap-4">
+                  <div className="h-10 w-10 shrink-0 rounded-xl bg-brand-100 text-brand-700 flex items-center justify-center mt-0.5">
+                    <Sparkles size={18} />
                   </div>
-                  <div>
-                    <h3 className="font-semibold text-brand-900 text-base">Expert Style Matching</h3>
+                  <div className="min-w-0 flex-1">
+                    <h3 className="font-semibold text-brand-900 text-sm sm:text-base leading-tight">Expert Style Matching</h3>
                     <p className="text-xs sm:text-sm text-brand-600 leading-relaxed mt-1">
                       Our framers personally evaluate your uploaded photo's mood and color palette to recommend the perfect border &amp; finish.
                     </p>
                   </div>
                 </div>
 
-                <div className="card-soft p-5 border-3d bg-white flex items-start gap-4">
-                  <div className="h-11 w-11 shrink-0 rounded-2xl bg-green-100 text-green-700 flex items-center justify-center">
-                    <ShieldCheck size={20} />
+                <div className="card-soft p-4 sm:p-5 border-3d bg-white flex items-start gap-3.5 sm:gap-4">
+                  <div className="h-10 w-10 shrink-0 rounded-xl bg-green-100 text-green-700 flex items-center justify-center mt-0.5">
+                    <ShieldCheck size={18} />
                   </div>
-                  <div>
-                    <h3 className="font-semibold text-brand-900 text-base">100% Private &amp; Secure</h3>
+                  <div className="min-w-0 flex-1">
+                    <h3 className="font-semibold text-brand-900 text-sm sm:text-base leading-tight">100% Private &amp; Secure</h3>
                     <p className="text-xs sm:text-sm text-brand-600 leading-relaxed mt-1">
                       Your photo goes straight to our studio team for framing — no public uploads, complete data privacy guaranteed.
                     </p>

@@ -61,7 +61,7 @@ export default function BookingForm() {
     <form onSubmit={onSubmit} noValidate className="border-3d p-6 sm:p-8">
       <div className="grid gap-5 sm:grid-cols-2">
         <Field label="Your name" error={errors.name}>
-          <input className={inputCls("name")} placeholder="Priya Sharma" value={form.name} onChange={set("name")} />
+          <input className={inputCls("name")} placeholder="Vignesh" value={form.name} onChange={set("name")} />
         </Field>
 
         <Field label="Phone" error={errors.phone}>
