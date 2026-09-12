@@ -12,7 +12,7 @@ export default function Seo({ title, description, image, path = "/" }) {
     : "RJV Studios — Best Photography Studio & Photo Frames in Thiruvarur";
   
   const canonical = `${SITE_URL}${path === "/" ? "" : path}`;
-  const ogImage = image || `${SITE_URL}/images/og-home.webp`;
+  const ogImage = image || `${SITE_URL}/images/og-share-kid.jpg`;
   const defaultDesc =
     "RJV Studios — Premium wedding photography, baby shoots, event videography and custom photo frames in Thiruvarur, Tamil Nadu.";
 
