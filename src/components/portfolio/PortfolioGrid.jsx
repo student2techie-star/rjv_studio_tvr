@@ -3,11 +3,16 @@ import React from "react";
 import { motion } from "framer-motion";
 import { portfolio } from "../../data/portfolio";
 
-export default function PortfolioGrid() {
+export default function PortfolioGrid({ category = "All" }) {
+  const filtered =
+    category === "All"
+      ? portfolio
+      : portfolio.filter((item) => item.category === category.toLowerCase());
+
   return (
     <section className="py-12 bg-brand-50">
       <div className="container mx-auto grid gap-4 auto-rows-fr" style={{ gridTemplateColumns: "repeat(auto-fit, minmax(250px, 1fr))" }}>
-        {portfolio.map((item) => (
+        {filtered.map((item) => (
           <motion.div
             key={item.id}
             className="relative group cursor-pointer"
