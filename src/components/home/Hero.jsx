@@ -3,8 +3,8 @@ import { motion } from "framer-motion";
 import { ArrowRight, Sparkles, Star, ShieldCheck } from "lucide-react";
 import Container from "../common/Container";
 import Button from "../common/Button";
-import heroImg from "../../assets/images/hero.png";
-import weddingImg from "../../assets/images/weddings/anniversary-01.jpg";
+import heroImg from "../../assets/images/weddings/anniversary-01.jpg";
+import chipImg from "../../assets/images/portraits/bridal-red.jpg";
 
 export default function Hero() {
   return (
@@ -132,7 +132,7 @@ export default function Hero() {
               animate={{ opacity: 1, y: 0 }}
               transition={{ duration: 0.6, delay: 0.85 }}
             >
-              <img src={weddingImg} alt="" className="h-full w-full object-cover" loading="lazy" decoding="async" width={112} height={112} />
+              <img src={chipImg} alt="RJV Studios bridal portrait" className="h-full w-full object-cover" loading="lazy" decoding="async" width={112} height={112} />
             </motion.div>
           </motion.div>
         </div>
