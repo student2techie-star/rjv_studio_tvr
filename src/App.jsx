@@ -8,6 +8,7 @@ import Header from "./components/layout/Header";
 import Footer from "./components/layout/Footer";
 import LogoIntro from "./components/layout/LogoIntro";
 import WhatsAppButton from "./components/common/WhatsAppButton";
+import AIChatbot from "./components/common/AIChatbot";
 import Home from "./pages/Home";
 import About from "./pages/About";
 import Services from "./pages/Services";
@@ -53,6 +54,7 @@ function App() {
         </PageTransition>
         <Footer />
         <WhatsAppButton />
+        <AIChatbot />
       </Router>
     </HelmetProvider>
   );
