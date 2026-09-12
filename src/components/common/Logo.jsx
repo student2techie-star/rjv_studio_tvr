@@ -40,52 +40,53 @@ export default function Logo({ size = 40, className = "" }) {
           className="object-contain w-full h-full"
           onError={() => setFailed(true)}
         />
-        {/* Flash overlay — golden lens flare burst on lens center */}
+        {/* Flash overlay — golden lens flare burst from lens front */}
         <span
           aria-hidden="true"
           style={{
             position: "absolute",
-            /* Lens sits roughly at 50% X, 28% Y of the image */
-            top: "26%",
+            top: "30%",          /* lens Y in 240px image */
             left: "50%",
             transform: "translate(-50%, -50%)",
-            width: size * 0.35,
-            height: size * 0.35,
+            width: size * 0.32,
+            height: size * 0.32,
             borderRadius: "50%",
             background:
-              "radial-gradient(circle, #fffde7 0%, #ffd54f 30%, rgba(255,213,79,0.4) 60%, transparent 80%)",
+              "radial-gradient(circle, #ffffff 0%, #fffde7 20%, #ffd54f 45%, rgba(255,213,79,0.2) 70%, transparent 85%)",
             boxShadow: flashOn
-              ? `0 0 ${size * 0.25}px ${size * 0.15}px #ffd54f,
-                 0 0 ${size * 0.5}px ${size * 0.1}px rgba(255,255,200,0.8)`
+              ? `0 0 ${size * 0.3}px ${size * 0.18}px rgba(255,220,60,0.95),
+                 0 0 ${size * 0.6}px ${size * 0.12}px rgba(255,240,160,0.6)`
               : "none",
             opacity: flashOn ? 1 : 0,
             transition: flashOn
               ? "opacity 0.06s ease-in, box-shadow 0.06s ease-in"
-              : "opacity 0.3s ease-out, box-shadow 0.3s ease-out",
+              : "opacity 0.35s ease-out, box-shadow 0.35s ease-out",
             pointerEvents: "none",
             mixBlendMode: "screen",
           }}
         />
-        {/* Radial light rays when flash fires */}
-        {flashOn && (
+        {/* Star flare rays from lens when flash fires */}
+        {flashOn && [0, 45, 90, 135].map((deg) => (
           <span
+            key={deg}
             aria-hidden="true"
             style={{
               position: "absolute",
-              top: "26%",
+              top: "30%",
               left: "50%",
-              transform: "translate(-50%, -50%)",
-              width: size * 0.7,
-              height: size * 0.7,
-              borderRadius: "50%",
+              transform: `translate(-50%, -50%) rotate(${deg}deg)`,
+              transformOrigin: "center",
+              width: size * 1.2,
+              height: 2,
               background:
-                "radial-gradient(circle, rgba(255,253,231,0.6) 0%, rgba(255,213,79,0.15) 40%, transparent 70%)",
+                "linear-gradient(to right, transparent 0%, rgba(255,235,100,0.8) 40%, rgba(255,235,100,0.8) 60%, transparent 100%)",
+              borderRadius: "999px",
               pointerEvents: "none",
               mixBlendMode: "screen",
-              animation: "flashRays 0.2s ease-out forwards",
+              animation: "flashRays 0.25s ease-out forwards",
             }}
           />
-        )}
+        ))}
       </span>
     );
   }
