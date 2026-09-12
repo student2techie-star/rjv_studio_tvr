@@ -29,8 +29,8 @@ export default function About() {
   return (
     <>
       <Seo
-        title="About"
-        description="The story, philosophy and craft behind RJV Studios — premium photography from Thiruvarur, preserving your precious moments."
+        title="About Us — Professional Photographers in Thiruvarur"
+        description="Learn about RJV Studios — Thiruvarur's trusted photography studio specializing in editorial wedding stories, family portraits, and handcrafted photo frames."
         path="/about"
       />
 

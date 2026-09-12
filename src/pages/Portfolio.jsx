@@ -15,8 +15,8 @@ export default function Portfolio() {
   return (
     <>
       <Seo
-        title="Portfolio"
-        description="Browse the RJV Studios portfolio — weddings, ceremonies, portraits, baby shoots and events captured across Tamil Nadu."
+        title="Photography Portfolio — Weddings, Baby & Event Shoots"
+        description="View the RJV Studios photo gallery — real weddings, traditional Tamil ceremonies, baby shoots, and portrait photography captured across Thiruvarur & Tamil Nadu."
         path="/portfolio"
       />
 

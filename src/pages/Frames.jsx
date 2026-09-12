@@ -37,8 +37,8 @@ export default function Frames() {
   return (
     <>
       <Seo
-        title="Send Your Frame"
-        description="Upload your photo and let RJV Studios frame it for you — private, quick and delivered on WhatsApp."
+        title="Custom Photo Frames & Printing Shop in Thiruvarur"
+        description="Upload your photos and order custom handcrafted photo frames from RJV Studios Thiruvarur. High quality printing, 3D border frames & fast delivery."
         path="/frames"
       />
 

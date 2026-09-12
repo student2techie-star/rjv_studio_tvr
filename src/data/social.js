@@ -25,4 +25,11 @@ export const social = [
     ),
     icon: "whatsapp",
   },
+  {
+    id: "justdial",
+    name: "Justdial",
+    handle: "RJV Studios (Opp. HDFC Bank)",
+    url: "https://www.justdial.com/Tiruvarur/RJV-Studios-Opposite-Hdfc-Bank-Tiruvarur-North/9999P4366-4366-181214173912-R4A5_BZDET",
+    icon: "justdial",
+  },
 ];

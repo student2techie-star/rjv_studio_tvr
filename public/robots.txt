@@ -1,6 +1,5 @@
 User-agent: *
 Allow: /
-Disallow: /frames
 
-# Update the Sitemap line below to your live domain once deployed.
+# XML Sitemap
 Sitemap: https://student2techie-star.github.io/rjv_studio_tvr/sitemap.xml

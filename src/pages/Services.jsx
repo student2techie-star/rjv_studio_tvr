@@ -12,8 +12,8 @@ export default function Services() {
   return (
     <>
       <Seo
-        title="Services"
-        description="Explore RJV Studios photography services — weddings, engagements, baby shoots, ceremonies, portraits and events, from Thiruvarur."
+        title="Photography Services & Packages in Thiruvarur"
+        description="Explore RJV Studios photography services in Thiruvarur — weddings, engagements, baby shoots, puberty ceremonies, outdoor portraits, and event cinematography."
         path="/services"
       />
 

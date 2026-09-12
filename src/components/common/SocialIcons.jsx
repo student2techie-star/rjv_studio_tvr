@@ -34,6 +34,14 @@ export default function SocialIcon({ name, size = 20, className = "" }) {
     );
   }
 
+  if (name === "justdial") {
+    return (
+      <svg {...common} fill="currentColor" stroke="none">
+        <path d="M12 2C6.48 2 2 6.48 2 12s4.48 10 10 10 10-4.48 10-10S17.52 2 12 2zm-1 14.5v-5h-1.5V10H12v6.5h-1zm.5-8.25c-.55 0-1-.45-1-1s.45-1 1-1 1 .45 1 1-.45 1-1 1zM15 16.5h-1.5v-3.5c0-.55-.45-1-1-1s-1 .45-1 1v3.5H10V10h1.5v.8c.4-.5 1-0.8 1.8-0.8 1.4 0 2.2.9 2.2 2.5v4.0z"/>
+      </svg>
+    );
+  }
+
   // Instagram default
   return (
     <svg {...common}>

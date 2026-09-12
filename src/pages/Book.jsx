@@ -13,8 +13,8 @@ export default function Book() {
   return (
     <>
       <Seo
-        title="Book a Session"
-        description="Book your photography session with RJV Studios — share your event details and get a personalised plan within 24 hours."
+        title="Book Photography Session Online — RJV Studios Thiruvarur"
+        description="Reserve your wedding, baby shoot or event photography session online with RJV Studios Thiruvarur. Instant booking form and customized quote within 24 hours."
         path="/book"
       />
 

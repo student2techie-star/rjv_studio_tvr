@@ -41,13 +41,23 @@ const SOCIALS = [
     color: "bg-red-50 text-red-700 border-red-200",
     iconBg: "bg-red-100 text-red-700",
   },
+  {
+    id: "justdial",
+    label: "Justdial",
+    handle: "RJV Studios (Opp. HDFC Bank)",
+    note: "Verified local business listing.",
+    url: "https://www.justdial.com/Tiruvarur/RJV-Studios-Opposite-Hdfc-Bank-Tiruvarur-North/9999P4366-4366-181214173912-R4A5_BZDET",
+    icon: "justdial",
+    color: "bg-amber-50 text-amber-700 border-amber-200",
+    iconBg: "bg-amber-100 text-amber-700",
+  },
 ];
 
 const INFO = [
   {
     icon: MapPin,
     label: "Location",
-    value: "Thiruvarur, Tamil Nadu, India",
+    value: "Opposite HDFC Bank, Tiruvarur North, Thiruvarur, Tamil Nadu",
   },
   {
     icon: Phone,
@@ -69,8 +79,8 @@ export default function Contact() {
   return (
     <>
       <Seo
-        title="Contact Us"
-        description="Get in touch with RJV Studios — find us on WhatsApp, Instagram, YouTube, or visit us in Thiruvarur."
+        title="Contact RJV Studios — Location Map & Contact Details Thiruvarur"
+        description="Get in touch with RJV Studios in Thiruvarur. View our studio address on Google Maps, call +91 97893 25969, or chat on WhatsApp & Instagram."
         path="/contact"
       />
 

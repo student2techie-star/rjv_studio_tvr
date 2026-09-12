@@ -12,8 +12,8 @@ export default function Home() {
   return (
     <>
       <Seo
-        title="Premium Photography"
-        description="RJV Studios — premium wedding, ceremony, baby, portrait and event photography from Thiruvarur. Preserve your precious moments with an editorial touch."
+        title="Best Photography Studio & Photo Frames in Thiruvarur"
+        description="RJV Studios — Premium wedding photography, baby shoots, event videography and custom photo frames in Thiruvarur, Tamil Nadu. Book your shoot today!"
         path="/"
       />
       <Hero />
