@@ -62,20 +62,25 @@ export default function Frames() {
         </Container>
       </section>
 
-      {/* Reference Video */}
+      {/* Frame Video Showcase */}
       <section className="py-12 bg-white border-b border-brand-100">
         <Container className="max-w-3xl">
           <motion.div {...useScrollReveal({ delay: 0.05 })}>
             <p className="eyebrow mb-3 text-center">See how it works</p>
             <h2 className="text-section text-center mb-8">Watch our frame showcase</h2>
-            <div className="rounded-3xl overflow-hidden shadow-xl border border-brand-100 aspect-video">
-              <iframe
-                src={`https://www.youtube.com/embed/${YOUTUBE_VIDEO_ID}?rel=0&modestbranding=1`}
-                title="RJV Studio frame reference video"
-                className="w-full h-full border-0"
-                allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture"
-                allowFullScreen
-              />
+            <div className="rounded-3xl overflow-hidden shadow-xl border border-brand-100 aspect-video bg-black">
+              <video
+                src={`${import.meta.env.BASE_URL}videos/frame_video.mp4`}
+                controls
+                autoPlay
+                loop
+                muted
+                playsInline
+                className="w-full h-full object-cover"
+                aria-label="RJV Studio frame video"
+              >
+                Your browser does not support the video tag.
+              </video>
             </div>
           </motion.div>
         </Container>
