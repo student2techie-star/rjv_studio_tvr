@@ -39,7 +39,7 @@ function HeroSlideshowChip() {
 
   return (
     <motion.div
-      className="absolute -top-7 -right-3 sm:-right-7 lg:-right-9 hidden sm:block w-36 h-48 sm:w-44 sm:h-56 lg:w-48 lg:h-60 rounded-3xl overflow-hidden border-4 border-white shadow-2xl shadow-brand-900/30 rotate-3 transition-transform duration-500 hover:rotate-0 z-20 bg-slate-950"
+      className="absolute -top-10 -right-4 sm:-right-8 lg:-right-12 hidden sm:block w-40 h-56 sm:w-52 sm:h-72 lg:w-56 lg:h-80 rounded-t-[80px] rounded-b-[32px] overflow-hidden border-[5px] border-white shadow-[0_25px_60px_-10px_rgba(15,23,42,0.4)] rotate-3 transition-transform duration-500 hover:rotate-0 z-20 bg-slate-950"
       initial={{ opacity: 0, scale: 0.85, y: -20 }}
       animate={{ opacity: 1, scale: 1, y: 0 }}
       transition={{ duration: 0.8, delay: 0.85 }}
