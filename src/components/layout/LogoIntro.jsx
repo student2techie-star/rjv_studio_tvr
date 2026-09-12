@@ -67,7 +67,10 @@ export default function LogoIntro({ onFinish }) {
           stage === "flash" || stage === "white" ? "#FFFFFF" : "#EEF9FE",
       }}
       transition={{ duration: 0.25 }}
-      aria-hidden="true"
+      onClick={finish}
+      role="button"
+      tabIndex={-1}
+      aria-label="Intro — tap to continue"
     >
       {/* Aperture blades — appear in "lens", rotate in "aperture" */}
       {(stage === "lens" || stage === "aperture") && (
@@ -179,6 +182,16 @@ export default function LogoIntro({ onFinish }) {
       )}
 
       <style>{`svg { overflow: visible; }`}</style>
+
+      {/* Skip hint */}
+      <motion.p
+        className="absolute bottom-6 text-sm font-medium tracking-widest text-brand-600/80 uppercase"
+        initial={{ opacity: 0 }}
+        animate={{ opacity: stage === "white" ? 0 : 1 }}
+        transition={{ delay: 0.4, duration: 0.4 }}
+      >
+        Tap anywhere to continue
+      </motion.p>
     </motion.div>
   );
 }

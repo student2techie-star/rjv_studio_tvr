@@ -1,7 +1,7 @@
 // src/pages/Frames.jsx
 import React from "react";
 import { motion } from "framer-motion";
-import { ShieldCheck, Lock, Clock } from "lucide-react";
+import { ShieldCheck, Lock, Clock, Film } from "lucide-react";
 import Seo from "../components/common/Seo";
 import Container from "../components/common/Container";
 import ImageUploader from "../components/frames/ImageUploader";
@@ -61,6 +61,28 @@ export default function Frames() {
       <section className="py-14 lg:py-20 bg-brand-50 min-h-[50vh]">
         <Container className="max-w-3xl">
           <ImageUploader />
+
+          <div className="mt-10 rounded-3xl border border-brand-100 bg-white p-6 sm:p-8 shadow-soft">
+            <div className="mb-4 flex flex-wrap items-center gap-3">
+              <span className="grid h-10 w-10 shrink-0 place-items-center rounded-full bg-brand-100 text-brand-600">
+                <Film size={20} />
+              </span>
+              <div>
+                <h2 className="text-lg font-semibold text-brand-900">Reference video</h2>
+                <p className="text-caption mt-0.5">
+                  A short demo clip. Replace <code className="rounded bg-brand-100 px-1.5 py-0.5 text-xs text-brand-700">public/videos/frames-demo.mp4</code> with your final video.
+                </p>
+              </div>
+            </div>
+            <video
+              className="aspect-video w-full rounded-2xl bg-brand-900 object-cover"
+              src={`${import.meta.env.BASE_URL}videos/frames-demo.mp4`}
+              controls
+              playsInline
+              preload="metadata"
+              title="Dummy video placeholder"
+            />
+          </div>
 
           <div className="mt-14 grid gap-6 sm:grid-cols-3">
             {NOTES.map((n) => (
