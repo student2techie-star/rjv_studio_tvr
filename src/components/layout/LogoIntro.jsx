@@ -17,10 +17,9 @@ const STAGES = [
 
 const LAST = STAGES.length - 1;
 
-// Lens center in the 240×240 rendered logo image:
-// X: 51% from left, Y: 25.5% from top (exact lens center)
-const LENS_TOP  = "25.5%";
-const LENS_LEFT = "51%";
+// Lens center coordinates (moved slightly top-left):
+const LENS_TOP  = "23%";
+const LENS_LEFT = "49%";
 
 function prefersReducedMotion() {
   return typeof window !== "undefined" &&
@@ -84,16 +83,16 @@ export default function LogoIntro({ onFinish }) {
           style={{ width: 240, height: 240, objectFit: "contain", display: "block" }}
         />
 
-        {/* ── Lens charge glow (soft warm build-up) ── */}
+        {/* ── Lens charge glow (soft warm build-up inside lens aperture) ── */}
         <AnimatePresence>
           {showGlow && (
             <motion.span
               key="lens-glow"
               aria-hidden="true"
-              initial={{ opacity: 0, scale: 0.3 }}
+              initial={{ opacity: 0, scale: 0.2 }}
               animate={{
-                opacity: isFlash ? 0 : 0.9,
-                scale:   isFlash ? 0.3 : 1,
+                opacity: isFlash ? 0 : 0.95,
+                scale:   isFlash ? 0.2 : 1,
               }}
               exit={{ opacity: 0, transition: { duration: 0.1 } }}
               transition={{ duration: 0.4, ease: "easeOut" }}
@@ -102,14 +101,14 @@ export default function LogoIntro({ onFinish }) {
                 top:          LENS_TOP,
                 left:         LENS_LEFT,
                 transform:    "translate(-50%, -50%)",
-                width:        64,
-                height:       64,
+                width:        28,
+                height:       28,
                 borderRadius: "50%",
                 background:
-                  "radial-gradient(circle, #fff9c4 0%, #ffd54f 35%, rgba(255,200,50,0.5) 65%, transparent 80%)",
+                  "radial-gradient(circle, #ffffff 0%, #fff9c4 40%, #ffd54f 70%, rgba(255,200,50,0.6) 90%)",
                 boxShadow: `
-                  0 0 12px 8px rgba(255,210,60,0.8),
-                  0 0 30px 15px rgba(255,230,80,0.5)
+                  0 0 10px 4px rgba(255,220,60,0.9),
+                  0 0 20px 8px rgba(255,235,100,0.6)
                 `,
                 mixBlendMode:  "normal",
                 pointerEvents: "none",

@@ -45,8 +45,8 @@ export default function Logo({ size = 40, className = "" }) {
           aria-hidden="true"
           style={{
             position: "absolute",
-            top: "25.5%",
-            left: "51%",
+            top: "23%",
+            left: "49%",
             transform: "translate(-50%, -50%)",
             width: size * 0.38,
             height: size * 0.38,
@@ -73,8 +73,8 @@ export default function Logo({ size = 40, className = "" }) {
             aria-hidden="true"
             style={{
               position: "absolute",
-              top: "25.5%",
-              left: "51%",
+              top: "23%",
+              left: "49%",
               transform: `translate(-50%, -50%) rotate(${deg}deg)`,
               transformOrigin: "center",
               width: size * 1.6,
