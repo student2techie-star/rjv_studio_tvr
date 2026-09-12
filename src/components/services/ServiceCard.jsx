@@ -14,11 +14,11 @@ export default function ServiceCard({ service, revealProps }) {
       className="group relative flex flex-col overflow-hidden rounded-3xl bg-white border border-brand-200/70 shadow-sm shadow-brand-900/5 transition-all duration-300 hover:shadow-xl hover:shadow-brand-900/10 border-3d"
     >
       {/* Image */}
-      <div className="relative aspect-[16/10] overflow-hidden">
+      <div className="relative aspect-[16/10] overflow-hidden bg-slate-100">
         <motion.img
           src={service.image}
           alt={service.title}
-          className="h-full w-full object-cover"
+          className={`h-full w-full object-cover ${service.imagePosition || "object-center"}`}
           loading="lazy"
           decoding="async"
           width={640}

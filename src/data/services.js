@@ -1,10 +1,10 @@
 // src/data/services.js
 import weddingImg from "../assets/images/weddings/anniversary-01.jpg";
-import engagementImg from "../assets/images/portraits/shoot-02.webp";
-import babyImg from "../assets/images/kids/maternity-01.jpg";
-import ceremonyImg from "../assets/images/ceremonies/shivarathiri-01.webp";
-import portraitImg from "../assets/images/portraits/bridal-red.jpg";
-import eventImg from "../assets/images/events/event-01.webp";
+import engagementImg from "../assets/images/portraits/couple-studio.jpg";
+import babyImg from "../assets/images/kids/babyshoot-murugan.jpg";
+import ceremonyImg from "../assets/images/ceremonies/shivarathiri-02.webp";
+import portraitImg from "../assets/images/portraits/bridal-green.jpg";
+import eventImg from "../assets/images/events/event-02.webp";
 
 export const services = [
   {
@@ -20,6 +20,7 @@ export const services = [
       "Grand Reception & Stage Coverage",
     ],
     image: weddingImg,
+    imagePosition: "object-[center_20%]",
     features: ["Full-day coverage", "2 Photographers", "High-res Digital & Album"],
   },
   {
@@ -34,6 +35,7 @@ export const services = [
       "Wardrobe & Concept Guidance",
     ],
     image: engagementImg,
+    imagePosition: "object-[center_25%]",
     features: ["Location scouting", "Cinematic Teaser", "Style Guidance"],
   },
   {
@@ -49,6 +51,7 @@ export const services = [
       "Kids Milestone Photography",
     ],
     image: babyImg,
+    imagePosition: "object-[center_15%]",
     features: ["Newborn Safe Setup", "Theme Props Included", "Family Portraits"],
   },
   {
@@ -63,6 +66,7 @@ export const services = [
       "Family Poojas & Annaprasana",
     ],
     image: ceremonyImg,
+    imagePosition: "object-[center_25%]",
     features: ["Temple & Home Events", "Ritual Highlights", "Premium Photo Book"],
   },
   {
@@ -77,6 +81,7 @@ export const services = [
       "Family Group Portraiture",
     ],
     image: portraitImg,
+    imagePosition: "object-[center_20%]",
     features: ["Studio Lighting", "Retouched Finals", "High Resolution"],
   },
   {
@@ -91,6 +96,7 @@ export const services = [
       "Live Shows & Music Events",
     ],
     image: eventImg,
+    imagePosition: "object-[center_25%]",
     features: ["Multi-hour Coverage", "Fast Turnaround", "Digital Gallery"],
   },
 ];
