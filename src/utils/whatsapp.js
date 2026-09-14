@@ -42,8 +42,13 @@ const messages = {
       ];
       if (payload.notes) lines.push(`Frame Instructions: ${payload.notes}`);
       lines.push(`Selected Photo: ${payload.filename || "-"}`);
-      lines.push("");
-      lines.push("(Please attach the photo image when sending this message)");
+      if (payload.photoUrl) {
+        lines.push("");
+        lines.push(`📷 View / Download Photo: ${payload.photoUrl}`);
+      } else {
+        lines.push("");
+        lines.push("(Please attach the photo image when sending this message)");
+      }
       return lines.join("\n");
     }
     return `Hello, I would like to send you a frame photo for editing.\n\nSelected photo: ${payload}\n\n(Please attach the photo here and send it to the studio.)`;

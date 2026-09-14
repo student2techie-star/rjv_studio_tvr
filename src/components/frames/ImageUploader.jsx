@@ -1,7 +1,7 @@
 // src/components/frames/ImageUploader.jsx
 import React, { useCallback, useEffect, useRef, useState } from "react";
 import { motion, AnimatePresence } from "framer-motion";
-import { Upload, ImagePlus, Send, ShieldCheck, User, Phone, MapPin, FileText, AlertCircle } from "lucide-react";
+import { Upload, ImagePlus, Send, ShieldCheck, User, Phone, MapPin, FileText, AlertCircle, ExternalLink, Check, Copy, CloudUpload } from "lucide-react";
 import UploadPreview from "./UploadPreview";
 import UploadStatus from "./UploadStatus";
 import { validateImage, sanitizeFilename } from "../../utils/validation";
@@ -9,9 +9,70 @@ import { getWhatsAppUrl } from "../../utils/whatsapp";
 
 const API_BASE = (import.meta.env.VITE_API_BASE_URL || "").replace(/\/$/, "");
 
+// Free cloud image upload helper (No paid backend required)
+async function uploadToCatbox(file) {
+  const data = new FormData();
+  data.append("reqtype", "fileupload");
+  data.append("fileToUpload", file);
+  const res = await fetch("https://catbox.moe/user/api.php", {
+    method: "POST",
+    body: data,
+  });
+  if (!res.ok) throw new Error(`Catbox upload failed (${res.status})`);
+  const text = await res.text();
+  if (text.startsWith("http")) return text.trim();
+  throw new Error("Unexpected response from Catbox");
+}
+
+async function uploadToTmpfiles(file) {
+  const data = new FormData();
+  data.append("file", file);
+  const res = await fetch("https://tmpfiles.org/api/v1/upload", {
+    method: "POST",
+    body: data,
+  });
+  if (!res.ok) throw new Error(`Tmpfiles upload failed (${res.status})`);
+  const json = await res.json();
+  if (json?.status === "success" && json?.data?.url) {
+    return json.data.url.replace("tmpfiles.org/", "tmpfiles.org/dl/");
+  }
+  throw new Error("Unexpected response from Tmpfiles");
+}
+
+async function uploadToImgBB(file, apiKey) {
+  const data = new FormData();
+  data.append("image", file);
+  const res = await fetch(`https://api.imgbb.com/1/upload?key=${apiKey}`, {
+    method: "POST",
+    body: data,
+  });
+  const json = await res.json();
+  if (json?.data?.url) return json.data.url;
+  throw new Error("ImgBB upload failed");
+}
+
+async function uploadImageToFreeCloud(file) {
+  const imgbbKey = import.meta.env.VITE_IMGBB_API_KEY;
+  if (imgbbKey) {
+    try {
+      return await uploadToImgBB(file, imgbbKey);
+    } catch (err) {
+      console.warn("ImgBB upload failed, falling back to Catbox:", err);
+    }
+  }
+  try {
+    return await uploadToCatbox(file);
+  } catch (err) {
+    console.warn("Catbox upload failed, falling back to Tmpfiles:", err);
+    return await uploadToTmpfiles(file);
+  }
+}
+
 export default function ImageUploader() {
   const [file, setFile] = useState(null);
   const [previewUrl, setPreviewUrl] = useState("");
+  const [uploadedPhotoUrl, setUploadedPhotoUrl] = useState("");
+  const [copied, setCopied] = useState(false);
   const [error, setError] = useState("");
   const [status, setStatus] = useState("idle"); // idle | ready | uploading | success | error
   const [dragging, setDragging] = useState(false);
@@ -64,6 +125,7 @@ export default function ImageUploader() {
     if (urlRef.current) URL.revokeObjectURL(urlRef.current);
     urlRef.current = URL.createObjectURL(check.file);
     setPreviewUrl(urlRef.current);
+    setUploadedPhotoUrl("");
     setError("");
     setStatus("ready");
     setFile(check.file);
@@ -73,6 +135,7 @@ export default function ImageUploader() {
     if (urlRef.current) URL.revokeObjectURL(urlRef.current);
     urlRef.current = null;
     setPreviewUrl("");
+    setUploadedPhotoUrl("");
     setFile(null);
     setStatus("idle");
   };
@@ -84,44 +147,68 @@ export default function ImageUploader() {
     if (dropped) accept(dropped);
   }, []);
 
-  const handleWhatsAppClick = (e) => {
-    if (!validateForm()) {
-      e.preventDefault();
-      setError("Please complete your details (Name, Phone & Address) before proceeding.");
-      return;
-    }
-    setError("");
-  };
-
-  const openApiSend = async () => {
+  const handleUploadAndSend = async (autoOpenWhatsApp = true) => {
     if (!file) return;
     if (!validateForm()) {
-      setError("Please complete your details (Name, Phone & Address) before proceeding.");
+      setError("Please fill in your Name, Phone Number & Delivery Address first.");
       return;
     }
-    if (!API_BASE) return;
 
-    setStatus("uploading");
-    const payload = new FormData();
-    payload.append("photo", file, sanitizeFilename(file.name));
-    payload.append("name", formData.name.trim());
-    payload.append("phone", formData.phone.trim());
-    payload.append("address", formData.address.trim());
-    payload.append("notes", formData.notes.trim());
+    setError("");
+    let cloudUrl = uploadedPhotoUrl;
 
-    try {
-      const res = await fetch(`${API_BASE}/api/frames/upload`, { method: "POST", body: payload });
-      if (!res.ok) {
-        const detail = await res.json().catch(() => ({}));
-        throw new Error(detail.message || `Upload failed (${res.status})`);
+    if (!cloudUrl) {
+      setStatus("uploading");
+      try {
+        if (API_BASE) {
+          // Send to custom studio backend if configured
+          const payload = new FormData();
+          payload.append("photo", file, sanitizeFilename(file.name));
+          payload.append("name", formData.name.trim());
+          payload.append("phone", formData.phone.trim());
+          payload.append("address", formData.address.trim());
+          payload.append("notes", formData.notes.trim());
+
+          const res = await fetch(`${API_BASE}/api/frames/upload`, { method: "POST", body: payload });
+          if (res.ok) {
+            const data = await res.json().catch(() => ({}));
+            cloudUrl = data.photoUrl || data.url || "";
+          }
+        }
+
+        if (!cloudUrl) {
+          // Use free cloud photo hosting
+          cloudUrl = await uploadImageToFreeCloud(file);
+        }
+
+        setUploadedPhotoUrl(cloudUrl);
+        setStatus("success");
+      } catch (err) {
+        console.error("Upload error:", err);
+        setStatus("error");
+        setError("Failed to upload image to cloud. You can still send details via WhatsApp.");
+        cloudUrl = "";
       }
-      const data = await res.json().catch(() => ({}));
-      setStatus(data.success === false ? "error" : "success");
-      if (data.success === false) setError(data.message || "Upload failed.");
-    } catch (err) {
-      setStatus("error");
-      setError(err.message || "Network error during upload.");
     }
+
+    if (autoOpenWhatsApp) {
+      const waUrl = getWhatsAppUrl("frames", {
+        name: formData.name.trim(),
+        phone: formData.phone.trim(),
+        address: formData.address.trim(),
+        notes: formData.notes.trim(),
+        filename: sanitizeFilename(file.name),
+        photoUrl: cloudUrl,
+      });
+      window.open(waUrl, "_blank", "noopener,noreferrer");
+    }
+  };
+
+  const copyPhotoUrl = () => {
+    if (!uploadedPhotoUrl) return;
+    navigator.clipboard.writeText(uploadedPhotoUrl);
+    setCopied(true);
+    setTimeout(() => setCopied(false), 2000);
   };
 
   const whatsAppUrl = file
@@ -131,6 +218,7 @@ export default function ImageUploader() {
         address: formData.address.trim(),
         notes: formData.notes.trim(),
         filename: sanitizeFilename(file.name),
+        photoUrl: uploadedPhotoUrl,
       })
     : "#";
 
@@ -313,43 +401,82 @@ export default function ImageUploader() {
               </div>
             </motion.div>
 
+            {/* Upload Status Card */}
             <UploadStatus status={status} error={error} />
 
-            {error && file && (
+            {/* Uploaded Photo Direct Link Banner */}
+            {uploadedPhotoUrl && (
+              <motion.div
+                initial={{ opacity: 0, scale: 0.98 }}
+                animate={{ opacity: 1, scale: 1 }}
+                className="rounded-2xl border border-emerald-300 bg-emerald-50/90 p-4 sm:p-5 space-y-2 text-emerald-950"
+              >
+                <div className="flex items-center justify-between gap-2">
+                  <p className="text-xs font-bold uppercase tracking-wider text-emerald-800 flex items-center gap-1.5">
+                    <ShieldCheck size={16} className="text-emerald-600" /> Photo Uploaded to Free Cloud
+                  </p>
+                  <button
+                    type="button"
+                    onClick={copyPhotoUrl}
+                    className="inline-flex items-center gap-1 text-xs font-semibold text-emerald-700 hover:text-emerald-900 bg-white px-2.5 py-1 rounded-lg border border-emerald-200 shadow-2xs"
+                  >
+                    {copied ? <Check size={13} /> : <Copy size={13} />}
+                    {copied ? "Copied!" : "Copy Link"}
+                  </button>
+                </div>
+                <div className="flex items-center gap-2">
+                  <a
+                    href={uploadedPhotoUrl}
+                    target="_blank"
+                    rel="noopener noreferrer"
+                    className="text-xs font-medium text-emerald-700 hover:underline break-all flex items-center gap-1"
+                  >
+                    {uploadedPhotoUrl} <ExternalLink size={12} className="shrink-0" />
+                  </a>
+                </div>
+                <p className="text-xs text-emerald-700/90">
+                  This direct link has been automatically added to your WhatsApp message text below!
+                </p>
+              </motion.div>
+            )}
+
+            {error && file && !uploadedPhotoUrl && (
               <p className="text-sm font-semibold text-rose-600 flex items-center gap-1.5">
                 <AlertCircle size={16} /> {error}
               </p>
             )}
 
-            {/* Actions */}
+            {/* Action Buttons */}
             <div className="flex flex-col sm:flex-row gap-3">
               <button
                 type="button"
-                onClick={openApiSend}
-                disabled={!API_BASE || status === "uploading" || status === "success"}
-                className="btn-dark disabled:opacity-40 disabled:cursor-not-allowed"
-                title={!API_BASE ? "Backend not connected yet" : "Send to the studio"}
+                onClick={() => handleUploadAndSend(false)}
+                disabled={status === "uploading"}
+                className="btn-dark disabled:opacity-50 flex items-center justify-center gap-2"
               >
-                Upload to studio
+                <CloudUpload size={18} />
+                {status === "uploading"
+                  ? "Uploading Photo..."
+                  : uploadedPhotoUrl
+                  ? "Photo Uploaded!"
+                  : "Upload Photo to Cloud"}
               </button>
 
-              <a
-                href={whatsAppUrl}
-                target="_blank"
-                rel="noopener noreferrer"
-                onClick={handleWhatsAppClick}
-                className="btn-primary"
+              <button
+                type="button"
+                onClick={() => handleUploadAndSend(true)}
+                disabled={status === "uploading"}
+                className="btn-primary flex items-center justify-center gap-2"
               >
-                <Send size={17} /> Send via WhatsApp
-              </a>
+                <Send size={17} />
+                {status === "uploading" ? "Uploading & Opening WhatsApp..." : "Upload & Send via WhatsApp"}
+              </button>
             </div>
 
-            {!API_BASE && (
-              <p className="flex items-start gap-2 text-xs text-brand-500">
-                <ShieldCheck size={15} className="mt-0.5 shrink-0" />
-                The studio backend will be connected soon. Fill in your details above and click <strong>Send via WhatsApp</strong> — your details and photo choice will be sent directly to RJV Studios.
-              </p>
-            )}
+            <p className="flex items-start gap-2 text-xs text-brand-500">
+              <ShieldCheck size={15} className="mt-0.5 shrink-0 text-emerald-600" />
+              100% Free image hosting — your photo is securely uploaded to cloud storage and the direct view link is attached to your WhatsApp message so RJV Studios can view your exact photo immediately.
+            </p>
           </motion.div>
         )}
       </AnimatePresence>
