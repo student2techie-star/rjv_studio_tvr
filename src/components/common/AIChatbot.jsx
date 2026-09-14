@@ -52,8 +52,8 @@ const BOT_KNOWLEDGE = [
         variant: "whatsapp",
       },
       {
-        label: "Call Studio (+91 90034 30930)",
-        external: "tel:+919003430930",
+        label: "Call Studio (+91 75983 82584)",
+        external: "tel:+917598382584",
         variant: "call",
       },
     ],
@@ -126,7 +126,7 @@ const BOT_KNOWLEDGE = [
   {
     keywords: ["location", "address", "where", "map", "place", "city", "direction", "timing", "hours", "open"],
     response:
-      "📍 **RJV Studios & Photo Frames**\n\n• **Address**: Opposite HDFC Bank, Tiruvarur North, Thiruvarur, Tamil Nadu 610001\n• **Working Hours**: Open Daily 9:00 AM – 9:00 PM\n• **Phone/WhatsApp**: +91 90034 30930",
+      "📍 **RJV Studios & Photo Frames**\n\n• **Address**: Opposite HDFC Bank, Tiruvarur North, Thiruvarur, Tamil Nadu 610001\n• **Working Hours**: Open Daily 9:00 AM – 9:00 PM\n• **Phone/WhatsApp**: +91 75983 82584",
     action: { label: "Open Google Maps", external: "https://maps.google.com/?q=RJV+Studios+Thiruvarur" },
     suggestions: withNav([
       { label: "📅 Book Studio Visit", query: "How can I book a photography shoot?" },
@@ -144,8 +144,8 @@ const BOT_KNOWLEDGE = [
         variant: "whatsapp",
       },
       {
-        label: "Call Studio (+91 90034 30930)",
-        external: "tel:+919003430930",
+        label: "Call Studio (+91 75983 82584)",
+        external: "tel:+917598382584",
         variant: "call",
       },
     ],
@@ -165,8 +165,8 @@ const BOT_KNOWLEDGE = [
         variant: "whatsapp",
       },
       {
-        label: "Call Studio (+91 90034 30930)",
-        external: "tel:+919003430930",
+        label: "Call Studio (+91 75983 82584)",
+        external: "tel:+917598382584",
         variant: "call",
       },
     ],
@@ -205,8 +205,8 @@ function getBotReply(userText) {
           variant: "whatsapp",
         },
         {
-          label: "Call Studio (+91 90034 30930)",
-          external: "tel:+919003430930",
+          label: "Call Studio (+91 75983 82584)",
+          external: "tel:+917598382584",
           variant: "call",
         },
       ],
@@ -234,8 +234,8 @@ function getBotReply(userText) {
         variant: "whatsapp",
       },
       {
-        label: "Call Studio (+91 90034 30930)",
-        external: "tel:+919003430930",
+        label: "Call Studio (+91 75983 82584)",
+        external: "tel:+917598382584",
         variant: "call",
       },
     ],

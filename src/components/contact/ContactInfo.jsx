@@ -9,7 +9,7 @@ const CARDS = [
   {
     id: "whatsapp",
     label: "WhatsApp",
-    value: "+91 90034 30930",
+    value: "+91 75983 82584",
     note: "Fastest reply — usually within the hour.",
     url: createWhatsAppUrl("Hello, I'd like to get in touch with RJV Studios."),
     icon: "whatsapp",

@@ -14,7 +14,7 @@ const SOCIALS = [
   {
     id: "whatsapp",
     label: "WhatsApp",
-    handle: "+91 90034 30930",
+    handle: "+91 75983 82584",
     note: "Fastest reply — usually within the hour.",
     url: createWhatsAppUrl("Hello! I'd like to know more about RJV Studios."),
     icon: "whatsapp",
@@ -62,8 +62,8 @@ const INFO = [
   {
     icon: Phone,
     label: "Phone / WhatsApp",
-    value: "+91 90034 30930",
-    href: "tel:+919003430930",
+    value: "+91 75983 82584",
+    href: "tel:+917598382584",
   },
   {
     icon: Mail,
@@ -80,7 +80,7 @@ export default function Contact() {
     <>
       <Seo
         title="Contact RJV Studios — Location Map & Contact Details Thiruvarur"
-        description="Get in touch with RJV Studios in Thiruvarur. View our studio address on Google Maps, call +91 90034 30930, or chat on WhatsApp & Instagram."
+        description="Get in touch with RJV Studios in Thiruvarur. View our studio address on Google Maps, call +91 75983 82584, or chat on WhatsApp & Instagram."
         path="/contact"
       />
 

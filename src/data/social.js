@@ -19,7 +19,7 @@ export const social = [
   {
     id: "whatsapp",
     name: "WhatsApp",
-    handle: "+91 90034 30930",
+    handle: "+91 75983 82584",
     url: createWhatsAppUrl(
       "Hello, I would like to know more about RJV Studios photography services."
     ),

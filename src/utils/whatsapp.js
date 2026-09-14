@@ -2,7 +2,7 @@
 // Central place for all WhatsApp logic. Never hand-write wa.me URLs in components.
 
 const WHATSAPP_NUMBER =
-  import.meta.env.VITE_WHATSAPP_NUMBER || "919003430930";
+  import.meta.env.VITE_WHATSAPP_NUMBER || "917598382584";
 
 export function createWhatsAppUrl(message = "") {
   const base = `https://wa.me/${WHATSAPP_NUMBER}`;
