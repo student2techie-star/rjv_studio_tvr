@@ -3,32 +3,21 @@
  * 
  * Handles secure photo uploads from RJV Studio React Frontend to Google Drive.
  * Generates concurrency-safe daily sequential filenames: RJV_Studio_YYYYMMDD_0001.ext
- * 
- * SETUP INSTRUCTIONS:
- * 1. Open Google Drive -> Create folder: "RJV Studio Submissions" -> Copy Folder ID from URL.
- * 2. Open https://script.google.com -> Create new project: "RJV Studio Submissions Backend".
- * 3. Paste this code into Code.gs.
- * 4. Project Settings (gear icon) -> Script Properties -> Add Property:
- *    - FOLDER_ID = your_google_drive_folder_id
- *    - TIMEZONE  = Asia/Kolkata
- * 5. Deploy -> New deployment -> Select type: Web app
- *    - Description: RJV Studio Photo Submission API
- *    - Execute as: Me
- *    - Who has access: Anyone
- * 6. Copy Web App URL into frontend .env as VITE_GOOGLE_APPS_SCRIPT_URL
  */
 
 function doPost(e) {
   try {
-    if (!e || !e.postData || !e.postData.contents) {
+    var data = {};
+    if (e && e.postData && e.postData.contents) {
+      try {
+        data = JSON.parse(e.postData.contents);
+      } catch (parseErr) {
+        data = e.parameter || {};
+      }
+    } else if (e && e.parameter) {
+      data = e.parameter;
+    } else {
       return createJsonResponse({ success: false, message: "No payload received." });
-    }
-
-    var data;
-    try {
-      data = JSON.parse(e.postData.contents);
-    } catch (parseError) {
-      return createJsonResponse({ success: false, message: "Invalid JSON format." });
     }
 
     // 1. Backend Validation
@@ -149,7 +138,7 @@ function doPost(e) {
     Logger.log("Error in doPost: " + error.toString());
     return createJsonResponse({
       success: false,
-      message: "Unable to upload your photo. Please try again."
+      message: "Unable to upload your photo: " + error.toString()
     });
   }
 }
@@ -172,7 +161,7 @@ function getNormalizedExtension(filename, mimeType) {
     else if (mimeType.indexOf("webp") > -1) ext = ".webp";
     else ext = ".jpg";
   }
-  if (ext === ".jpeg") ext = ".jpg"; // normalize jpeg to jpg
+  if (ext === ".jpeg") ext = ".jpg";
   return ext;
 }
 

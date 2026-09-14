@@ -1,9 +1,9 @@
 // src/components/frames/ImageUploader.jsx
 import React, { useCallback, useEffect, useRef, useState } from "react";
 import { motion, AnimatePresence } from "framer-motion";
-import { Upload, ImagePlus, Send, ShieldCheck, User, MapPin, AlertCircle, CheckCircle2, RefreshCw } from "lucide-react";
+import { Upload, ImagePlus, Send, ShieldCheck, User, MapPin, AlertCircle, CheckCircle2, RefreshCw, HardDrive } from "lucide-react";
 import UploadPreview from "./UploadPreview";
-import { validateImage, sanitizeFilename } from "../../utils/validation";
+import { validateImage, sanitizeFilename, formatBytes } from "../../utils/validation";
 import { uploadToGoogleDrive } from "../../utils/googleDrive";
 import { getWhatsAppUrl } from "../../utils/whatsapp";
 
@@ -14,6 +14,15 @@ export default function ImageUploader() {
   const [error, setError] = useState("");
   const [status, setStatus] = useState("idle"); // idle | ready | uploading | success | error
   const [dragging, setDragging] = useState(false);
+
+  // Real-time Upload Progress State
+  const [uploadProgress, setUploadProgress] = useState({
+    loaded: 0,
+    total: 0,
+    percent: 0,
+    formattedLoaded: "0 MB",
+    formattedTotal: "0 MB",
+  });
 
   // Form State
   const [name, setName] = useState("");
@@ -73,6 +82,13 @@ export default function ImageUploader() {
     setStatus("ready");
     setSubmissionResult(null);
     setFile(check.file);
+    setUploadProgress({
+      loaded: 0,
+      total: check.file.size,
+      percent: 0,
+      formattedLoaded: "0 MB",
+      formattedTotal: (check.file.size / (1024 * 1024)).toFixed(2) + " MB",
+    });
   };
 
   const removeFile = () => {
@@ -82,6 +98,7 @@ export default function ImageUploader() {
     setFile(null);
     setSubmissionResult(null);
     setStatus("idle");
+    setUploadProgress({ loaded: 0, total: 0, percent: 0, formattedLoaded: "0 MB", formattedTotal: "0 MB" });
   };
 
   const onDrop = useCallback((e) => {
@@ -101,19 +118,27 @@ export default function ImageUploader() {
 
     setError("");
     setStatus("uploading");
+    setUploadProgress({
+      loaded: 0,
+      total: file.size,
+      percent: 5,
+      formattedLoaded: "0.00 MB",
+      formattedTotal: (file.size / (1024 * 1024)).toFixed(2) + " MB",
+    });
 
     try {
       const result = await uploadToGoogleDrive({
         name: name.trim(),
         address: address.trim(),
         file: file,
+        onProgress: (prog) => setUploadProgress(prog),
       });
 
       if (result && result.success) {
         setSubmissionResult(result);
         setStatus("success");
       } else {
-        throw new Error(result?.message || "Unable to upload your photo. Please check your connection and try again.");
+        throw new Error(result?.message || "Unable to upload your photo to Google Drive. Please try again.");
       }
     } catch (err) {
       console.error("Submission error:", err);
@@ -189,7 +214,8 @@ export default function ImageUploader() {
             <button
               type="button"
               onClick={() => inputRef.current?.click()}
-              className="inline-flex items-center gap-1.5 text-xs font-semibold text-brand-700 hover:text-brand-900 bg-white border border-brand-200 px-3.5 py-2 rounded-xl shadow-2xs hover:bg-brand-50 transition-colors"
+              disabled={status === "uploading"}
+              className="inline-flex items-center gap-1.5 text-xs font-semibold text-brand-700 hover:text-brand-900 bg-white border border-brand-200 px-3.5 py-2 rounded-xl shadow-2xs hover:bg-brand-50 transition-colors disabled:opacity-40"
             >
               <RefreshCw size={13} /> Change Photo
             </button>
@@ -288,15 +314,44 @@ export default function ImageUploader() {
             </motion.div>
           )}
 
-          {/* Loading Indicator during Upload */}
+          {/* Real-time MB Upload Progress Bar Indicator */}
           {status === "uploading" && (
-            <div className="rounded-2xl border border-brand-200 bg-brand-50 p-4 text-center space-y-2">
-              <div className="inline-flex items-center gap-2 text-sm font-semibold text-brand-900">
-                <span className="h-4 w-4 rounded-full border-2 border-brand-600 border-t-transparent animate-spin" />
-                Uploading photo... Please wait.
+            <motion.div
+              initial={{ opacity: 0, y: 8 }}
+              animate={{ opacity: 1, y: 0 }}
+              className="rounded-2xl border border-brand-200 bg-brand-50/90 p-5 space-y-3"
+            >
+              <div className="flex items-center justify-between text-xs font-bold text-brand-900">
+                <span className="flex items-center gap-2">
+                  <span className="h-4 w-4 rounded-full border-2 border-brand-600 border-t-transparent animate-spin" />
+                  Uploading photo to Google Drive...
+                </span>
+                <span className="font-mono text-brand-800 bg-white px-2.5 py-0.5 rounded-lg border border-brand-200 shadow-2xs">
+                  {uploadProgress.percent || 0}%
+                </span>
               </div>
-              <p className="text-xs text-brand-600">Saving your image securely to Google Drive.</p>
-            </div>
+
+              {/* Progress Bar Track */}
+              <div className="w-full h-3 rounded-full bg-brand-200/80 overflow-hidden p-0.5">
+                <motion.div
+                  className="h-full rounded-full bg-gradient-to-r from-brand-600 via-emerald-500 to-brand-500 shadow-sm"
+                  initial={{ width: "0%" }}
+                  animate={{ width: `${uploadProgress.percent || 5}%` }}
+                  transition={{ duration: 0.2, ease: "easeOut" }}
+                />
+              </div>
+
+              {/* Real-time Loaded MB / Total MB Counter */}
+              <div className="flex justify-between items-center text-xs font-medium text-brand-700">
+                <span className="flex items-center gap-1 font-mono">
+                  <HardDrive size={13} className="text-brand-500" />
+                  {uploadProgress.formattedLoaded || "0 MB"} / {uploadProgress.formattedTotal || formatBytes(file?.size)}
+                </span>
+                <span className="text-brand-500 text-[11px]">
+                  {uploadProgress.percent < 100 ? "Uploading bytes..." : "Saving to Google Drive..."}
+                </span>
+              </div>
+            </motion.div>
           )}
 
           {/* Success State & WhatsApp Action */}
@@ -337,7 +392,7 @@ export default function ImageUploader() {
               className="btn-primary w-full py-4 text-base font-bold flex items-center justify-center gap-2 shadow-md transition-all disabled:opacity-50 disabled:cursor-not-allowed"
             >
               {status === "uploading" ? (
-                <>Uploading... Please wait.</>
+                <>Uploading photo... Please wait.</>
               ) : (
                 <>Submit</>
               )}
