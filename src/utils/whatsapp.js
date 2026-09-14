@@ -31,12 +31,23 @@ const messages = {
     "Hello, I would like to enquire about wedding photography at RJV Studios.",
   general:
     "Hello, I would like to know more about RJV Studios photography services.",
-  frames: (filename) =>
-    `Hello, I would like to send you a frame photo for editing.
-
-Selected photo: ${filename}
-
-(Please attach the photo here and send it to the studio.)`,
+  frames: (payload) => {
+    if (typeof payload === "object" && payload !== null) {
+      const lines = [
+        "Hello RJV Studios, I would like to order a custom photo frame!",
+        "",
+        `Name: ${payload.name || "-"}`,
+        `Phone: ${payload.phone || "-"}`,
+        `Delivery Address: ${payload.address || "-"}`,
+      ];
+      if (payload.notes) lines.push(`Frame Instructions: ${payload.notes}`);
+      lines.push(`Selected Photo: ${payload.filename || "-"}`);
+      lines.push("");
+      lines.push("(Please attach the photo image when sending this message)");
+      return lines.join("\n");
+    }
+    return `Hello, I would like to send you a frame photo for editing.\n\nSelected photo: ${payload}\n\n(Please attach the photo here and send it to the studio.)`;
+  },
   service: (serviceName) =>
     `Hello, I would like to enquire about ${serviceName} at RJV Studios.`,
 };
