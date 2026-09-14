@@ -1,8 +1,8 @@
 // src/utils/validation.js
 
-export const ACCEPTED_IMAGE_TYPES = ["image/jpeg", "image/png", "image/webp"];
+export const ACCEPTED_IMAGE_TYPES = ["image/jpeg", "image/jpg", "image/png", "image/webp"];
 export const ACCEPTED_IMAGE_EXTENSIONS = ["jpg", "jpeg", "png", "webp"];
-export const MAX_IMAGE_SIZE = 15 * 1024 * 1024; // 15 MB
+export const MAX_IMAGE_SIZE = 10 * 1024 * 1024; // 10 MB
 
 export function isRequired(value = "") {
   return value.trim().length > 0;
@@ -26,23 +26,23 @@ function getFileExtension(name = "") {
  * Returns { valid: true, file } or { valid: false, error }.
  */
 export function validateImage(file) {
-  if (!file) return { valid: false, error: "No file selected." };
+  if (!file) return { valid: false, error: "Please select one image." };
 
   const ext = getFileExtension(file.name);
-  const mimeOk = ACCEPTED_IMAGE_TYPES.includes(file.type);
+  const mimeOk = ACCEPTED_IMAGE_TYPES.includes((file.type || "").toLowerCase());
   const extOk = ACCEPTED_IMAGE_EXTENSIONS.includes(ext);
 
   if (!mimeOk || !extOk) {
     return {
       valid: false,
-      error: "Only JPG, PNG or WEBP images are accepted.",
+      error: "Only JPG, JPEG, PNG and WEBP images are allowed.",
     };
   }
 
   if (file.size > MAX_IMAGE_SIZE) {
     return {
       valid: false,
-      error: "Image is too large. Maximum size is 15 MB.",
+      error: "Image size must be less than 10 MB.",
     };
   }
 
