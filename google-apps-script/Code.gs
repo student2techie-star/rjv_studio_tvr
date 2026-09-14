@@ -58,8 +58,8 @@ function doPost(e) {
 
     // 2. Concurrency Lock using LockService
     var lock = LockService.getScriptLock();
-    // Wait up to 30 seconds for other concurrent requests to complete
-    if (!lock.waitLock(30000)) {
+    // Try to acquire lock for up to 30 seconds (returns true on success, false on timeout)
+    if (!lock.tryLock(30000)) {
       return createJsonResponse({ success: false, message: "Server busy processing another upload. Please try again." });
     }
 
@@ -69,7 +69,8 @@ function doPost(e) {
 
     try {
       var props = PropertiesService.getScriptProperties();
-      var folderId = props.getProperty("FOLDER_ID");
+      // Default to RJV Studio folder ID if Script Properties is not configured yet
+      var folderId = props.getProperty("FOLDER_ID") || "19-ZybfOLAwEbi-QtamhU8ok_Dz7PxcvN";
       var timezone = props.getProperty("TIMEZONE") || "Asia/Kolkata";
 
       if (!folderId) {

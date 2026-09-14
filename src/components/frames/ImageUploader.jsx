@@ -137,6 +137,18 @@ export default function ImageUploader() {
       if (result && result.success) {
         setSubmissionResult(result);
         setStatus("success");
+
+        // Automatically open WhatsApp with pre-filled message & Drive link immediately after upload
+        const autoWaUrl = getWhatsAppUrl("frames", {
+          name: name.trim(),
+          address: address.trim(),
+          filename: result.filename,
+          fileUrl: result.fileUrl,
+        });
+
+        setTimeout(() => {
+          window.open(autoWaUrl, "_blank", "noopener,noreferrer");
+        }, 300);
       } else {
         throw new Error(result?.message || "Unable to upload your photo to Google Drive. Please try again.");
       }
@@ -360,22 +372,45 @@ export default function ImageUploader() {
               <motion.div
                 initial={{ opacity: 0, scale: 0.97 }}
                 animate={{ opacity: 1, scale: 1 }}
-                className="rounded-2xl border border-emerald-200 bg-emerald-50 p-5 space-y-3 text-emerald-950"
+                className={`rounded-2xl border p-5 space-y-3 ${
+                  submissionResult.isFallback
+                    ? "border-amber-200 bg-amber-50 text-amber-950"
+                    : "border-emerald-200 bg-emerald-50 text-emerald-950"
+                }`}
               >
-                <div className="flex items-center gap-2 text-emerald-800 font-bold text-base">
-                  <CheckCircle2 size={22} className="text-emerald-600 shrink-0" />
-                  ✓ Photo uploaded successfully!
+                <div className={`flex items-center gap-2 font-bold text-base ${
+                  submissionResult.isFallback ? "text-amber-800" : "text-emerald-800"
+                }`}>
+                  <CheckCircle2 size={22} className={`shrink-0 ${
+                    submissionResult.isFallback ? "text-amber-600" : "text-emerald-600"
+                  }`} />
+                  {submissionResult.isFallback
+                    ? "✓ Photo uploaded (Backup Storage)"
+                    : "✓ Photo uploaded to Google Drive!"}
                 </div>
-                <div className="text-xs space-y-1 pl-7 text-emerald-800">
-                  <p><strong>File:</strong> <code className="bg-white/80 px-2 py-0.5 rounded font-mono text-emerald-900">{submissionResult.filename}</code></p>
-                  <p className="pt-1">Your submission is ready to send through WhatsApp.</p>
+                <div className={`text-xs space-y-1 pl-7 ${
+                  submissionResult.isFallback ? "text-amber-800" : "text-emerald-800"
+                }`}>
+                  <p><strong>File:</strong> <code className="bg-white/80 px-2 py-0.5 rounded font-mono text-slate-900">{submissionResult.filename}</code></p>
+                  {submissionResult.isFallback ? (
+                    <p className="pt-1 text-amber-700 font-medium">
+                      ⚠️ Note: Uploaded via backup storage because Google Drive script is not connected yet.
+                    </p>
+                  ) : (
+                    <p className="pt-1">Saved directly in RJV Studio Google Drive folder.</p>
+                  )}
+                  <p className="pt-0.5">Your submission is ready to send through WhatsApp.</p>
                 </div>
                 <div className="pt-2">
                   <a
                     href={whatsAppUrl}
                     target="_blank"
                     rel="noopener noreferrer"
-                    className="btn-primary w-full py-3.5 text-sm font-bold flex items-center justify-center gap-2 bg-emerald-600 hover:bg-emerald-700 text-white rounded-xl shadow-md transition-all"
+                    className={`btn-primary w-full py-3.5 text-sm font-bold flex items-center justify-center gap-2 text-white rounded-xl shadow-md transition-all ${
+                      submissionResult.isFallback
+                        ? "bg-amber-600 hover:bg-amber-700"
+                        : "bg-emerald-600 hover:bg-emerald-700"
+                    }`}
                   >
                     <Send size={18} /> Send via WhatsApp
                   </a>

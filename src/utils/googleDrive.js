@@ -53,13 +53,21 @@ export async function uploadToGoogleDrive({ name, address, file, onProgress }) {
           fileUrl: result.fileUrl,
           name: result.name || name,
           address: result.address || address,
+          isFallback: false,
         };
+      } else if (result && result.message) {
+        // Backend returned explicit failure (e.g. Folder ID missing, lock timeout, validation)
+        throw new Error(`Google Drive backend error: ${result.message}`);
       } else {
-        throw new Error(result?.message || "Google Drive upload was rejected.");
+        throw new Error("Google Drive upload request was rejected.");
       }
     } catch (err) {
-      console.warn("Google Apps Script upload failed, attempting cloud fallback:", err);
-      // Fall through to fallback if Apps Script endpoint is unreached
+      // Re-throw explicit Google Drive backend errors so the user sees the real reason
+      if (err.message && err.message.startsWith("Google Drive backend error:")) {
+        throw err;
+      }
+      console.warn("Google Apps Script network connection failed, attempting cloud fallback:", err);
+      // Fall through to fallback if Apps Script endpoint is completely unreached
     }
   }
 
