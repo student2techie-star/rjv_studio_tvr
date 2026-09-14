@@ -56,14 +56,18 @@ export async function uploadToGoogleDrive({ name, address, file, onProgress }) {
           isFallback: false,
         };
       } else if (result && result.message) {
-        // Backend returned explicit failure (e.g. Folder ID missing, lock timeout, validation)
-        throw new Error(`Google Drive backend error: ${result.message}`);
+        // Backend returned explicit validation/business failure (e.g. size limit)
+        throw new Error(`Google Drive error: ${result.message}`);
       } else {
         throw new Error("Google Drive upload request was rejected.");
       }
     } catch (err) {
-      console.error("Google Apps Script upload failed:", err);
-      throw new Error(`Google Drive Upload Failed: ${err.message || "Network or permission error. Please verify Web App deployment access is set to 'Anyone'."}`);
+      // Re-throw explicit validation errors
+      if (err.message && err.message.startsWith("Google Drive error:")) {
+        throw err;
+      }
+      console.warn("Google Apps Script connection failed or was blocked by browser. Using backup storage:", err);
+      // Fall through to backup storage so the customer submission always succeeds
     }
   }
 
@@ -83,7 +87,39 @@ export async function uploadToGoogleDrive({ name, address, file, onProgress }) {
   };
 }
 
-function postWithXHRProgress(url, bodyData, onProgress) {
+async function postWithXHRProgress(url, bodyData, onProgress) {
+  // Try modern fetch API first (bypasses browser XHR CORS strictness)
+  try {
+    if (onProgress) {
+      onProgress({
+        loaded: 50,
+        total: 100,
+        percent: 50,
+        formattedLoaded: "Uploading...",
+        formattedTotal: "Processing",
+      });
+    }
+
+    const response = await fetch(url, {
+      method: "POST",
+      headers: {
+        "Content-Type": "text/plain;charset=utf-8",
+      },
+      body: bodyData,
+    });
+
+    if (response.ok) {
+      const json = await response.json();
+      if (onProgress) {
+        onProgress({ loaded: 100, total: 100, percent: 100, formattedLoaded: "100%", formattedTotal: "Done" });
+      }
+      return json;
+    }
+  } catch (fetchErr) {
+    console.warn("Fetch POST failed, attempting XHR fallback:", fetchErr);
+  }
+
+  // Fallback to XMLHttpRequest if fetch was intercepted
   return new Promise((resolve, reject) => {
     const xhr = new XMLHttpRequest();
     xhr.open("POST", url, true);
@@ -117,7 +153,7 @@ function postWithXHRProgress(url, bodyData, onProgress) {
       }
     };
 
-    xhr.onerror = () => reject(new Error("Network connection error."));
+    xhr.onerror = () => reject(new Error("Network connection error. Check browser shields/extensions or internet connection."));
     xhr.ontimeout = () => reject(new Error("Upload timed out."));
 
     xhr.send(bodyData);
