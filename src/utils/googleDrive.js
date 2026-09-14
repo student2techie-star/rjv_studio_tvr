@@ -62,12 +62,8 @@ export async function uploadToGoogleDrive({ name, address, file, onProgress }) {
         throw new Error("Google Drive upload request was rejected.");
       }
     } catch (err) {
-      // Re-throw explicit Google Drive backend errors so the user sees the real reason
-      if (err.message && err.message.startsWith("Google Drive backend error:")) {
-        throw err;
-      }
-      console.warn("Google Apps Script network connection failed, attempting cloud fallback:", err);
-      // Fall through to fallback if Apps Script endpoint is completely unreached
+      console.error("Google Apps Script upload failed:", err);
+      throw new Error(`Google Drive Upload Failed: ${err.message || "Network or permission error. Please verify Web App deployment access is set to 'Anyone'."}`);
     }
   }
 
